@@ -1,0 +1,532 @@
+<title>Yallabae Mobile Spec</title>
+<style>
+  :root{
+    --ink:#14213D;
+    --accent:#FCA311;
+    --accent-ink:#7A4E00;
+    --ground:#F7F7F5;
+    --surface:#FFFFFF;
+    --muted:#5C6470;
+    --line:#E5E3DD;
+    --line-strong:#D6D3CA;
+    --ok:#1B7F4C;
+    --ok-bg:#E8F5EE;
+    --pending:#B54708;
+    --pending-bg:#FDF1E8;
+    --unknown:#8A5CF6;
+    --unknown-bg:#F1ECFE;
+    --code-bg:#F1EFE9;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ink:#EDEEF2;
+      --accent:#FFB733;
+      --accent-ink:#FFD98C;
+      --ground:#15161B;
+      --surface:#1C1E26;
+      --muted:#9CA1AF;
+      --line:#2C2E38;
+      --line-strong:#3A3D4A;
+      --ok:#4ADE94;
+      --ok-bg:#12261C;
+      --pending:#FDBA74;
+      --pending-bg:#2B1D0F;
+      --unknown:#C4B0FF;
+      --unknown-bg:#241B3D;
+      --code-bg:#20222C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEEF2;
+    --accent:#FFB733;
+    --accent-ink:#FFD98C;
+    --ground:#15161B;
+    --surface:#1C1E26;
+    --muted:#9CA1AF;
+    --line:#2C2E38;
+    --line-strong:#3A3D4A;
+    --ok:#4ADE94;
+    --ok-bg:#12261C;
+    --pending:#FDBA74;
+    --pending-bg:#2B1D0F;
+    --unknown:#C4B0FF;
+    --unknown-bg:#241B3D;
+    --code-bg:#20222C;
+  }
+
+  * { box-sizing:border-box; }
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:16px;
+    line-height:1.55;
+  }
+  .wrap{ max-width:920px; margin:0 auto; padding-block:32px 80px; }
+
+  h1,h2,h3{ font-family:'Fraunces',Georgia,serif; text-wrap:balance; color:var(--ink); }
+  .display-num{ font-variant-numeric:tabular-nums; font-family:'IBM Plex Mono',ui-monospace,monospace; }
+
+  /* ---------- Header ---------- */
+  header.doc{ margin-bottom:40px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent-ink); background:var(--code-bg); display:inline-block; padding:4px 10px; border-radius:4px;
+    margin-bottom:14px; border:1px solid var(--line-strong);
+  }
+  h1.title{ font-size:clamp(28px,5vw,42px); font-weight:600; margin:0 0 10px; line-height:1.12; }
+  .subtitle{ color:var(--muted); font-size:16px; max-width:62ch; margin:0 0 20px; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:10px 24px; font-size:13px; color:var(--muted); border-top:1px solid var(--line); padding-top:16px; }
+  .meta-row b{ color:var(--ink); font-weight:600; }
+
+  /* ---------- Nav ---------- */
+  nav.parts{
+    position:sticky; top:env(safe-area-inset-top,0px);
+    display:flex; gap:2px; background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:4px; margin-bottom:44px; z-index:5; box-shadow:0 1px 2px rgba(0,0,0,.04);
+    overflow-x:auto;
+  }
+  nav.parts a{
+    flex:1; text-align:center; white-space:nowrap; padding:9px 14px; border-radius:7px; font-size:13.5px; font-weight:600;
+    color:var(--muted); text-decoration:none;
+  }
+  nav.parts a:hover{ background:var(--code-bg); color:var(--ink); }
+
+  /* ---------- Sections ---------- */
+  section.part{ margin-bottom:64px; scroll-margin-top:70px; }
+  .part-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+  .part-num{ font-size:15px; color:var(--accent-ink); background:var(--code-bg); border:1px solid var(--line-strong); border-radius:6px; padding:2px 9px; }
+  .part-head h2{ font-size:26px; margin:0; font-weight:600; }
+  .part-intro{ color:var(--muted); max-width:66ch; margin:0 0 28px; font-size:15px; }
+
+  h3.mod-title{ font-size:19px; margin:0 0 4px; font-weight:600; }
+  .module{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:16px;
+  }
+  .mod-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:10px; }
+  .mod-code{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); }
+  .badges{ display:flex; gap:6px; flex-wrap:wrap; }
+  .badge{ font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px; white-space:nowrap; letter-spacing:.01em; }
+  .badge.confirmed{ background:var(--ok-bg); color:var(--ok); }
+  .badge.gap{ background:var(--pending-bg); color:var(--pending); }
+  .badge.unknown{ background:var(--unknown-bg); color:var(--unknown); }
+
+  .mod ul{ margin:8px 0 0; padding-left:20px; }
+  .mod li{ margin-bottom:4px; font-size:14.5px; }
+  .evidence{
+    margin-top:14px; padding-top:12px; border-top:1px dashed var(--line-strong);
+    font-size:13px; color:var(--muted);
+  }
+  .evidence b{ color:var(--ink); }
+
+  /* ---------- Tables (WBS) ---------- */
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--surface); }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:720px; }
+  thead th{
+    text-align:left; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
+    padding:12px 14px; border-bottom:1px solid var(--line-strong); background:var(--code-bg); white-space:nowrap;
+  }
+  tbody td{ padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr.subtotal td{ background:var(--code-bg); font-weight:600; }
+  td.num, th.num{ text-align:right; font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td.phase-name{ font-weight:600; }
+  td.phase-code{ font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:12px; }
+  .track-divider td{ background:var(--ink); color:var(--ground); font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; padding:8px 14px; }
+
+  /* ---------- Costing placeholder ---------- */
+  .placeholder{
+    border:1.5px dashed var(--line-strong); border-radius:12px; padding:32px 28px; text-align:center; background:var(--surface);
+  }
+  .placeholder .icon{ font-size:28px; margin-bottom:10px; }
+  .placeholder h3{ margin:0 0 8px; font-size:18px; }
+  .placeholder p{ color:var(--muted); max-width:52ch; margin:0 auto; font-size:14.5px; }
+
+  /* ---------- Assumption / open-question callouts ---------- */
+  .callout{ border-radius:10px; padding:14px 16px; font-size:13.5px; margin:20px 0; border:1px solid; }
+  .callout.open{ background:var(--pending-bg); border-color:var(--pending); color:var(--ink); }
+  .callout.open b{ color:var(--pending); }
+
+  footer.doc{ margin-top:60px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); }
+
+  @media (max-width:560px){
+    .mod-head{ flex-direction:column; }
+    nav.parts{ font-size:12px; }
+  }
+
+  @media print{
+    @page{ size: A4 landscape; margin: 14mm 12mm; }
+    body{ padding-inline:0; }
+    .wrap{ max-width:none; padding-block:0; }
+    nav.parts{ display:none; }
+    .table-scroll{ overflow-x:visible; border:none; }
+    table{ min-width:0; width:100%; font-size:10.5px; table-layout:fixed; }
+    thead th, tbody td{ padding:6px 8px; word-break:break-word; }
+    .module{ break-inside:avoid; }
+    tr, .track-divider{ break-inside:avoid; }
+    section.part{ break-before:page; margin-bottom:0; }
+    section.part:first-of-type{ break-before:auto; }
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<div class="wrap">
+
+  <header class="doc">
+    <span class="eyebrow">Marketplace Mobile App · Working Spec</span>
+    <h1 class="title">Yallabae Mobile Marketplace</h1>
+    <p class="subtitle">Functional specification, work breakdown, and cost estimate for the Yallabae mobile app, covering the Customer and Seller sides in full. Admin is excluded until its scope is shared.</p>
+    <div class="meta-row">
+      <span><b>Prepared by</b> M.Hunain, for the Yallabae mobile build</span>
+      <span><b>Backend</b> Lovable Cloud / Supabase-based; mobile-facing API layer, push infrastructure, and staging environment are the backend team's responsibility — mobile work here is client-side + integration only</span>
+      <span><b>Scope</b> Customer + Seller, full — Admin excluded until scoped</span>
+      <span><b>Proposed</b> 99 working days · PKR 6,000/day · PKR 594,000</span>
+      <span><b>Resourcing</b> Costed on a single resource — the total effort (99 days / PKR 594,000) stays fixed either way, but calendar time can shorten if a second resource works in parallel on independent tracks (e.g. Customer and Seller run side by side)</span>
+      <span><b>Status</b> Complete — Parts 1, 2 &amp; 3 ready for review</span>
+    </div>
+  </header>
+
+  <nav class="parts">
+    <a href="#spec">1 · Functional Spec</a>
+    <a href="#wbs">2 · Work Breakdown</a>
+    <a href="#costing">3 · Costing</a>
+  </nav>
+
+  <!-- ================= PART 1 — SPEC ================= -->
+  <section class="part" id="spec">
+    <div class="part-head"><span class="part-num">01</span><h2>Functional Specification</h2></div>
+    <p class="part-intro">Every module below reflects the live platform. Items marked <span class="badge confirmed" style="vertical-align:2px;">confirmed</span> are live and working today; <span class="badge gap" style="vertical-align:2px;">gap</span> marks scope that isn't on the live platform yet, deferred rather than assumed; <span class="badge unknown" style="vertical-align:2px;">unverified</span> marks scope inferred from platform copy rather than a live screen. Admin is out of scope here and will be added once its details are shared.</p>
+
+    <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 14px;">A — Customer App</h3>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Catalog &amp; Navigation</h3><div class="mod-code">CUST-01</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>19 categories total (11 top-level + 8 under "More"), each opening a mega-menu of up to 11 subcategories</li>
+        <li>Category listing pages: subcategory chips, price-range filter, star-rating filter, multi-select brand filter, 5-way sort (Featured / Price ↑ / Price ↓ / Rating / Newest)</li>
+        <li>Search with the same faceted filters — 60 results returned for a single test query</li>
+        <li>Flash Deals page: shared countdown timer across listed deals, per-product "% sold" progress bar</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Product Detail</h3><div class="mod-code">CUST-02</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Image gallery, price + discount badge, stock urgency messaging ("only 1 left")</li>
+        <li>Per-product seller attribution card (confirmed genuine multi-vendor — two products showed two different sellers)</li>
+        <li>Review infrastructure present but unseeded ("no reviews yet — be first after purchase")</li>
+        <li>Variant selector on apparel (size, shown as tappable M/L/XL/2XL-style options); the platform's data model supports variants generically (size, color, etc.), so the mobile selector is built generic rather than size-only — it will handle color variants the moment any seller lists one</li>
+        <li>No Q&amp;A section on the product page</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Wishlist</h3><div class="mod-code">CUST-03</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Dual behavior: heart icon on product cards toggles anonymously (local/optimistic UI, no login prompt)</li>
+        <li>Full wishlist list page is login-gated (<code>/account/wishlist</code>)</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Cart &amp; Checkout</h3><div class="mod-code">CUST-04</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Slide-out cart drawer + full cart page; VAT-inclusive pricing (5% UAE VAT); free-shipping threshold nudge</li>
+        <li>3-step checkout: Shipping → Payment → Review</li>
+        <li>Shipping: address types (Home/Office/Other), Emirate + City cascading select — all 7 emirates present; saved addresses persist to account</li>
+        <li>Payment: <b>Tap Payments</b> integration (Card, Apple Pay, Google Pay) <em>plus</em> a separate Cash on Delivery option (adds AED 10 handling fee)</li>
+        <li>Coupon code field present at both cart and checkout ("YALLA40" confirmed live); one coupon per order, excluded on Flash Deal items</li>
+        <li>Multi-vendor orders itemize shipping per seller (e.g. "Delivered by Comms and Goods LLC — AED 1.00")</li>
+        <li>Delivery estimate shown contextually (e.g. "24–48 hours" for Dubai)</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Account Area</h3><div class="mod-code">CUST-05</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Profile Settings — name, phone, saved addresses (multiple, typed), change password</li>
+        <li>Order History — status-tabbed (All / Pending / Processing / Shipped / Delivered / Cancelled)</li>
+        <li>Returns — dedicated list view tied to completed orders</li>
+        <li>My Reviews — gated to "view orders to write reviews" (purchase-gated review submission)</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Auth</h3><div class="mod-code">CUST-06</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Google OAuth + email/password, with mandatory email verification step before first login</li>
+        <li>Server-side weak/breached-password rejection on signup</li>
+        <li>Backend runs on Lovable Cloud (Supabase-based), identifiable from the auth verification email's sender domain</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Localization</h3><div class="mod-code">CUST-07</div></div>
+        <div class="badges"><span class="badge gap">deferred — not in this scope/cost</span></div>
+      </div>
+      <ul>
+        <li>No language switcher on the live platform — English only, currently</li>
+        <li>Arabic/English localization is in progress on the web platform but not live yet, so there's no live reference to build against — out of this scope and cost rather than assumed</li>
+        <li>Product page layout (text containers, icon direction, spacing) is built RTL-aware from the start, so localization can switch on later at low cost instead of a layout retrofit</li>
+        <li>Full localization (translated content pipeline, RTL across every screen, not just product pages) comes into scope once the web platform has it live</li>
+      </ul>
+    </div>
+
+    <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:32px 0 14px;">B — Seller App</h3>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Seller Onboarding (KYC)</h3><div class="mod-code">SELL-01</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Separate registration system from customer signup, at a dedicated <code>/seller/register</code> wizard with its own login</li>
+        <li>4 steps: <b>Account</b> (name/email/password/phone or Google OAuth) → <b>Business</b> (store name, UAE business address, description) → <b>Categories</b> (multi-select from the full 19-category taxonomy) → <b>Documents</b></li>
+        <li>Documents step is a hard gate: mandatory upload of UAE Trade License + Emirates ID (PDF/JPG/PNG, max 10MB), plus required Seller Agreement acceptance — submission is disabled without a file</li>
+        <li>Applications go into a review queue with email notification on approval, typically 2-3 business days</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Seller Dashboard — Analytics</h3><div class="mod-code">SELL-02</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Date-range filters (Today / 7 Days / 30 Days / 90 Days / All Time / Custom)</li>
+        <li>8 KPI tiles: Total Sales, Total Orders, Pending Orders, Payouts Received, Returns, Low Stock Alerts, Pending Reviews, Cancelled Orders</li>
+        <li>Sales Trend chart, Orders by Status chart, Top Products by Revenue, Commission by Category</li>
+        <li>Recent Orders table and Low Stock Alerts panel, each with a "view all / manage" link into the full module</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Product Management</h3><div class="mod-code">SELL-03</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed — bigger than originally scoped</span></div>
+      </div>
+      <ul>
+        <li>Product list with search (title/short name/SKU), a "Missing images" filter, and <b>Bulk Upload</b></li>
+        <li>Add Product form is genuinely complex: Physical vs. Digital product type toggle with different field sets (digital = no shipping/stock, card-only payment, buyer gets an access link)</li>
+        <li>Title, slug, model number, SKU/barcode, description, price, original price, stock</li>
+        <li>Brand selector — searchable dropdown across 300+ existing brands</li>
+        <li>Category + subcategory cascade (same 19-category taxonomy used everywhere else)</li>
+        <li>Mandatory shipping dimensions (weight, length, width, height) — carrier-relevant, not decorative</li>
+        <li>Image upload with auto-resize and WebP conversion (spec: 1000×1000px recommended, under 2MB, auto-converted to ~300KB)</li>
+        <li>Freeform Specifications (add arbitrary key-value rows)</li>
+        <li>Trust Badges multi-select (Warranty Available, Product Assembling Available, Secure Payment, Upgrade Available, Condition: Brand new, Condition: Renewed) — these map directly to the "Sold by" box badges on the customer-facing product page</li>
+        <li>Product Variants (size/color, independent stock and price per variant)</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Inventory</h3><div class="mod-code">SELL-04</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed — not previously scoped</span></div>
+      </div>
+      <ul>
+        <li>Separate nav item and separate screen from Products — a dedicated stock-management view beyond the per-product edit form</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Orders &amp; Returns</h3><div class="mod-code">SELL-05</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Orders: status-filterable list view</li>
+        <li>Returns: dedicated list view with status tabs, mirroring the customer-side Returns module</li>
+        <li>Reviews: seller-facing view of customer reviews on their own products</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Seller-Created Coupons</h3><div class="mod-code">SELL-06</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed — not previously scoped</span></div>
+      </div>
+      <ul>
+        <li>This is separate from the platform-wide coupon codes (like YALLA40) already scoped under CUST-04 — sellers can build and manage their own</li>
+        <li>KPIs: Total Coupons, Total Redemptions, Total Discount Given</li>
+        <li>Two views: "My Coupons" and a "Usage Report"</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Seller-Created Flash Deals</h3><div class="mod-code">SELL-07</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed — not previously scoped</span></div>
+      </div>
+      <ul>
+        <li>Sellers can create their own flash deals, separate from the platform-curated homepage countdown deals on the customer side</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Payouts</h3><div class="mod-code">SELL-08</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Three states: Total Earned, Pending Payout, and Frozen (the last one likely ties to open disputes or return holds)</li>
+        <li>Requires IBAN/bank details in Settings before payouts activate</li>
+        <li>Payout History table; bi-weekly cadence</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Settings &amp; Onboarding Checklist</h3><div class="mod-code">SELL-09</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed — not previously scoped</span></div>
+      </div>
+      <ul>
+        <li>First login shows a 4-item checklist: Store information (name &amp; phone), Warehouse/pickup address, Bank details for payouts, KYC documents on file</li>
+        <li>Warehouse/pickup address is a distinct required field — separate from the business address collected during registration</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Buyer-Seller Messaging</h3><div class="mod-code">CUST-08 / SELL-10</div></div>
+        <div class="badges"><span class="badge gap">confirmed in scope — no live reference</span></div>
+      </div>
+      <ul>
+        <li>In scope, though not present on the live web platform — built new rather than ported from an existing UI</li>
+        <li>Planned: conversation list (tied to an order or product), thread view, send/receive, read/unread state</li>
+        <li>Real-time delivery via WebSockets, matching the platform's existing messaging protocol — plus a push notification tie-in for new messages (shares infrastructure with A8 Notifications)</li>
+      </ul>
+    </div>
+
+    <div class="callout open">
+      <b>Admin — out of scope for now —</b> Admin will be documented and costed the same way as everything above, once its scope is available to review.
+    </div>
+  </section>
+
+  <!-- ================= PART 2 — WBS ================= -->
+  <section class="part" id="wbs">
+    <div class="part-head"><span class="part-num">02</span><h2>Work Breakdown Structure</h2></div>
+    <p class="part-intro">Two functional tracks — <b>Customer</b> and <b>Seller</b> — costed independently of app-count. Whether Customer, Seller, and Admin ship as one app, two, or three is a separate decision, made once Admin is scoped; these day estimates hold either way, since they're driven by feature complexity, not by how many apps the features end up living in.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th style="width:64px;">Code</th><th>Phase</th><th>Covers</th><th class="num">Depends on</th><th class="num">Days</th></tr>
+        </thead>
+        <tbody>
+          <tr class="track-divider"><td colspan="5">Track A — Customer App</td></tr>
+          <tr><td class="phase-code">A1</td><td class="phase-name">Foundation &amp; Auth</td><td>RN project setup, navigation shell, design system, Lovable/Supabase auth integration, email verification flow, password policy handling</td><td class="num">—</td><td class="num">5</td></tr>
+          <tr><td class="phase-code">A2</td><td class="phase-name">Catalog &amp; Navigation</td><td>19-category mega-menu as native nav, subcategory browsing, price/rating/brand filters, 5-way sort, search. Includes RTL-aware layout groundwork (logical direction, not hardcoded left/right)</td><td class="num">A1</td><td class="num">8</td></tr>
+          <tr><td class="phase-code">A3</td><td class="phase-name">Product Detail</td><td>Gallery, seller attribution card, stock/urgency states, review display (read-only), generic variant selector (size/color/etc., tappable options with price/stock updates, carried through cart and checkout). Includes RTL-aware layout groundwork</td><td class="num">A2</td><td class="num">6</td></tr>
+          <tr><td class="phase-code">A4</td><td class="phase-name">Wishlist</td><td>Anonymous local toggle + authenticated persisted list, sync on login</td><td class="num">A1, A3</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">A5</td><td class="phase-name">Cart &amp; Multi-Vendor Pricing</td><td>Cart drawer + page, VAT calc, free-shipping threshold logic, per-vendor shipping line items</td><td class="num">A3</td><td class="num">5</td></tr>
+          <tr><td class="phase-code">A6</td><td class="phase-name">Checkout</td><td>Shipping address (typed, emirate/city cascade), Tap Payments SDK integration (Card/Apple Pay/Google Pay), Cash on Delivery path, coupon validation, order review</td><td class="num">A5</td><td class="num">9</td></tr>
+          <tr><td class="phase-code">A7</td><td class="phase-name">Account Area</td><td>Profile/addresses, Order History (status-tabbed), Returns list + request flow, purchase-gated review submission</td><td class="num">A1, A6</td><td class="num">5</td></tr>
+          <tr><td class="phase-code">A8</td><td class="phase-name">Notifications</td><td>Push setup (iOS + Android), in-app alerts (order status, deals)</td><td class="num">A6</td><td class="num">4</td></tr>
+          <tr><td class="phase-code">A9</td><td class="phase-name">Messaging (Customer side)</td><td>Conversation list, thread view, send/receive via WebSockets, read/unread state. No live reference — new build</td><td class="num">A1, A3</td><td class="num">4</td></tr>
+          <tr><td class="phase-code">A10</td><td class="phase-name">QA &amp; Store Submission</td><td>Cross-platform QA, store listing assets, review-cycle buffer (both stores)</td><td class="num">A1–A9</td><td class="num">6</td></tr>
+          <tr class="subtotal"><td></td><td colspan="2">Track A subtotal</td><td class="num"></td><td class="num">54</td></tr>
+
+          <tr class="track-divider"><td colspan="5">Track B — Seller Functionality</td></tr>
+          <tr><td class="phase-code">B1</td><td class="phase-name">Foundation &amp; Auth</td><td>App shell/navigation, seller auth, permission layer — built so it can extend to an admin role tier once app-count is decided</td><td class="num">—</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">B2</td><td class="phase-name">Onboarding &amp; KYC</td><td>4-step registration wizard, document upload (Trade License / Emirates ID), Seller Agreement acceptance, warehouse/pickup address, pending-approval state</td><td class="num">B1</td><td class="num">7</td></tr>
+          <tr><td class="phase-code">B3</td><td class="phase-name">Product Management</td><td>Physical/Digital product types, brand &amp; category selection, mandatory shipping dimensions, image upload with resize/format pipeline, specifications, trust badges, product variants (size/color with independent stock/price), bulk upload, order management</td><td class="num">B2</td><td class="num">11</td></tr>
+          <tr><td class="phase-code">B4</td><td class="phase-name">Seller Analytics</td><td>Dashboard KPIs, sales trend, orders-by-status, top products, commission breakdown</td><td class="num">B3</td><td class="num">4</td></tr>
+          <tr><td class="phase-code">B5</td><td class="phase-name">Payouts</td><td>Earned/Pending/Frozen states, bank/IBAN details, payout history, bi-weekly cadence</td><td class="num">B3</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">B6</td><td class="phase-name">Inventory</td><td>Dedicated stock-management view, separate from the product edit form</td><td class="num">B3</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">B7</td><td class="phase-name">Seller Coupons</td><td>Coupon builder, redemption tracking, usage report — separate from platform-wide coupon codes</td><td class="num">B3</td><td class="num">4</td></tr>
+          <tr><td class="phase-code">B8</td><td class="phase-name">Seller Flash Deals</td><td>Seller-created flash deals, separate from platform-curated ones</td><td class="num">B3</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">B9</td><td class="phase-name">Messaging (Seller side)</td><td>Seller-context thread view, reusing the Customer-side messaging components. No live reference — new build</td><td class="num">A9, B1</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">B10</td><td class="phase-name">QA &amp; Store Submission</td><td>QA, store listing (or internal distribution decision), review-cycle buffer</td><td class="num">B1–B9</td><td class="num">5</td></tr>
+          <tr class="subtotal"><td></td><td colspan="2">Track B subtotal</td><td class="num"></td><td class="num">45</td></tr>
+
+          <tr class="track-divider"><td colspan="5">Total — Customer + Seller</td></tr>
+          <tr class="subtotal"><td></td><td colspan="2">A + B combined</td><td class="num"></td><td class="num">99</td></tr>
+
+          <tr class="track-divider"><td colspan="5">Open — not costed</td></tr>
+          <tr><td class="phase-code">X1</td><td class="phase-name">Arabic / RTL Localization</td><td>Not present on live site; deferred until the web platform has it live (see CUST-07)</td><td class="num">—</td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout open" style="margin-top:20px;">
+      <b>Admin excluded · app-count still open —</b> This covers Customer + Seller in full, including the seller dashboard (product management, inventory, seller coupons, seller flash deals, analytics, payouts) and the generic size/color variant selector on the customer side — at 99 working days combined at PKR 6,000/day. Admin becomes Track C once scoped, and app-count (1, 2, or 3 apps) is decided at that point — B1's permission layer is built to support that decision either way.
+    </div>
+  </section>
+
+  <!-- ================= PART 3 — COSTING ================= -->
+  <section class="part" id="costing">
+    <div class="part-head"><span class="part-num">03</span><h2>Costing</h2></div>
+    <p class="part-intro">Day rate: PKR 6,000/day, applied directly to the phases above. Covers Customer + Seller in full; Admin is priced separately once scoped. Every figure below is a day count times the rate — no hidden margin, checkable line by line against the spec.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th style="width:64px;">Code</th><th>Phase</th><th class="num">Days</th><th class="num">Cost (PKR)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="track-divider"><td colspan="4">Track A — Customer</td></tr>
+          <tr><td class="phase-code">A1</td><td class="phase-name">Foundation &amp; Auth</td><td class="num">5</td><td class="num">30,000</td></tr>
+          <tr><td class="phase-code">A2</td><td class="phase-name">Catalog &amp; Navigation</td><td class="num">8</td><td class="num">48,000</td></tr>
+          <tr><td class="phase-code">A3</td><td class="phase-name">Product Detail</td><td class="num">6</td><td class="num">36,000</td></tr>
+          <tr><td class="phase-code">A4</td><td class="phase-name">Wishlist</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">A5</td><td class="phase-name">Cart &amp; Multi-Vendor Pricing</td><td class="num">5</td><td class="num">30,000</td></tr>
+          <tr><td class="phase-code">A6</td><td class="phase-name">Checkout</td><td class="num">9</td><td class="num">54,000</td></tr>
+          <tr><td class="phase-code">A7</td><td class="phase-name">Account Area</td><td class="num">5</td><td class="num">30,000</td></tr>
+          <tr><td class="phase-code">A8</td><td class="phase-name">Notifications</td><td class="num">4</td><td class="num">24,000</td></tr>
+          <tr><td class="phase-code">A9</td><td class="phase-name">Messaging (Customer side)</td><td class="num">4</td><td class="num">24,000</td></tr>
+          <tr><td class="phase-code">A10</td><td class="phase-name">QA &amp; Store Submission</td><td class="num">6</td><td class="num">36,000</td></tr>
+          <tr class="subtotal"><td></td><td>Track A subtotal</td><td class="num">54</td><td class="num">324,000</td></tr>
+
+          <tr class="track-divider"><td colspan="4">Track B — Seller</td></tr>
+          <tr><td class="phase-code">B1</td><td class="phase-name">Foundation &amp; Auth</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">B2</td><td class="phase-name">Onboarding &amp; KYC</td><td class="num">7</td><td class="num">42,000</td></tr>
+          <tr><td class="phase-code">B3</td><td class="phase-name">Product Management</td><td class="num">11</td><td class="num">66,000</td></tr>
+          <tr><td class="phase-code">B4</td><td class="phase-name">Seller Analytics</td><td class="num">4</td><td class="num">24,000</td></tr>
+          <tr><td class="phase-code">B5</td><td class="phase-name">Payouts</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">B6</td><td class="phase-name">Inventory</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">B7</td><td class="phase-name">Seller Coupons</td><td class="num">4</td><td class="num">24,000</td></tr>
+          <tr><td class="phase-code">B8</td><td class="phase-name">Seller Flash Deals</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">B9</td><td class="phase-name">Messaging (Seller side)</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">B10</td><td class="phase-name">QA &amp; Store Submission</td><td class="num">5</td><td class="num">30,000</td></tr>
+          <tr class="subtotal"><td></td><td>Track B subtotal</td><td class="num">45</td><td class="num">270,000</td></tr>
+
+          <tr class="track-divider"><td colspan="4">Total</td></tr>
+          <tr class="subtotal"><td></td><td>Customer + Seller, 99 days @ PKR 6,000/day</td><td class="num">99</td><td class="num">594,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout open" style="margin-top:20px;">
+      <b>Not in this number —</b> Admin, priced once scoped. Full Arabic/RTL localization is deferred too and not priced in, but the RTL-ready layout groundwork in A2/A3 <em>is</em> included, so switching it on later, once the web platform has it live, is low-cost rather than a rebuild.
+    </div>
+
+    <div class="callout open" style="margin-top:12px;">
+      <b>On timeline vs. cost —</b> The 99 days above is total effort, costed for a single resource. If a second resource works alongside, Customer and Seller are independent enough to run in parallel on separate tracks, which shortens calendar time — but the total cost stays PKR 594,000 either way, since it's priced on effort, not on how many people deliver it.
+    </div>
+  </section>
+
+  <footer class="doc">
+    Happy to walk through any part of this on a call.
+  </footer>
+
+</div>
