@@ -1,0 +1,190 @@
+<title>Estimate Revision Notes</title>
+<style>
+  :root{
+    --ink:#14213D;
+    --accent:#FCA311;
+    --accent-ink:#7A4E00;
+    --ground:#F7F7F5;
+    --surface:#FFFFFF;
+    --muted:#5C6470;
+    --line:#E5E3DD;
+    --line-strong:#D6D3CA;
+    --old:#8A5CF6;
+    --old-bg:#F1ECFE;
+    --new:#1B7F4C;
+    --new-bg:#E8F5EE;
+    --code-bg:#F1EFE9;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ink:#EDEEF2; --accent:#FFB733; --accent-ink:#FFD98C;
+      --ground:#15161B; --surface:#1C1E26; --muted:#9CA1AF;
+      --line:#2C2E38; --line-strong:#3A3D4A;
+      --old:#C4B0FF; --old-bg:#241B3D; --new:#4ADE94; --new-bg:#12261C;
+      --code-bg:#20222C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEEF2; --accent:#FFB733; --accent-ink:#FFD98C;
+    --ground:#15161B; --surface:#1C1E26; --muted:#9CA1AF;
+    --line:#2C2E38; --line-strong:#3A3D4A;
+    --old:#C4B0FF; --old-bg:#241B3D; --new:#4ADE94; --new-bg:#12261C;
+    --code-bg:#20222C;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:16px; line-height:1.55;
+  }
+  .wrap{ max-width:880px; margin:0 auto; padding-block:32px 70px; }
+  h1,h2,h3{ font-family:'Fraunces',Georgia,serif; text-wrap:balance; color:var(--ink); }
+
+  header.doc{ margin-bottom:36px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent-ink); background:var(--code-bg); display:inline-block; padding:4px 10px; border-radius:4px;
+    margin-bottom:14px; border:1px solid var(--line-strong);
+  }
+  h1.title{ font-size:clamp(26px,4.8vw,36px); font-weight:600; margin:0 0 10px; line-height:1.15; }
+  .subtitle{ color:var(--muted); font-size:15.5px; max-width:62ch; margin:0; }
+
+  .compare{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; margin:28px 0 8px; }
+  @media (max-width:560px){ .compare{ grid-template-columns:1fr; } .compare .arrow{ transform:rotate(90deg); margin:0 auto; } }
+  .compare-card{ border-radius:12px; padding:20px 22px; border:1px solid var(--line); background:var(--surface); }
+  .compare-card.old{ border-color:color-mix(in srgb, var(--old) 30%, var(--line)); }
+  .compare-card.new{ border-color:color-mix(in srgb, var(--new) 30%, var(--line)); }
+  .compare-label{ font-size:11px; text-transform:uppercase; letter-spacing:.07em; font-weight:700; margin-bottom:8px; }
+  .compare-card.old .compare-label{ color:var(--old); }
+  .compare-card.new .compare-label{ color:var(--new); }
+  .compare-num{ font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .compare-sub{ font-size:13px; color:var(--muted); margin-top:4px; }
+  .arrow{ color:var(--muted); font-size:22px; }
+
+  .lede{ font-size:15.5px; margin:24px 0 8px; max-width:68ch; }
+  .lede b{ color:var(--accent-ink); }
+
+  h2{ font-size:20px; font-weight:600; margin:40px 0 6px; }
+  .section-hint{ color:var(--muted); font-size:14px; margin-bottom:16px; max-width:66ch; }
+
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--surface); margin-bottom:14px; }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:600px; }
+  thead th{
+    text-align:left; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted);
+    padding:10px 14px; border-bottom:1px solid var(--line-strong); background:var(--code-bg); white-space:nowrap;
+  }
+  tbody td{ padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:none; }
+  td.num, th.num{ text-align:right; font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  tr.highlight td{ background:var(--code-bg); }
+  tr.highlight td:first-child{ font-weight:600; }
+  tr.total-row td{ background:var(--new-bg); font-weight:700; color:var(--new); }
+
+  .why-note{ font-size:13.5px; color:var(--ink); }
+
+  .summary-box{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin-top:16px; font-size:14.5px;
+  }
+  .summary-box .big{ font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--accent-ink); }
+
+  .method{ margin-top:44px; }
+  .method-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+  @media (max-width:560px){ .method-grid{ grid-template-columns:1fr; } }
+  .method-card{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px 20px; }
+  .method-card h3{ font-size:15px; margin:0 0 6px; font-weight:600; }
+  .method-card p{ font-size:13.5px; color:var(--muted); margin:0; }
+
+  footer.doc{ margin-top:56px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<div class="wrap">
+
+  <header class="doc">
+    <span class="eyebrow">Yallabae Mobile App · Estimate Revision</span>
+    <h1 class="title">What Changed, and Why</h1>
+    <p class="subtitle">A line-by-line comparison between the first timeline estimate and the current one — covering what was found, what was confirmed, and where each additional day actually comes from.</p>
+  </header>
+
+  <div class="compare">
+    <div class="compare-card old">
+      <div class="compare-label">First Estimate</div>
+      <div class="compare-num">PKR 402,000</div>
+      <div class="compare-sub">67 working days (58 core + buffer)</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="compare-card new">
+      <div class="compare-label">Current Estimate</div>
+      <div class="compare-num">PKR 594,000</div>
+      <div class="compare-sub">99 working days, Customer + Seller in full</div>
+    </div>
+  </div>
+
+  <p class="lede">The first estimate was built from browsing the site — a reasonable starting point, but limited to what's visible from the outside. The current one is built from <b>directly using the platform</b>: a real customer account through checkout, an approved seller account through the full dashboard, and confirmed answers from the backend team on what's already built versus what mobile still needs to handle. The scope didn't change — the visibility into it did.</p>
+
+  <h2>Phase by phase</h2>
+  <p class="section-hint">Each row maps a phase from the first estimate to its current equivalent. Where the day count grew, the reason is specific — not a general buffer increase.</p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Phase</th><th class="num">First (days)</th><th class="num">Current (days)</th><th>Why it changed</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Foundation &amp; Auth setup</td><td class="num">9</td><td class="num">8</td><td class="why-note">Split into separate Customer and Seller foundations, each scoped independently</td></tr>
+        <tr><td>Browsing &amp; Search</td><td class="num">6</td><td class="num">8</td><td class="why-note">The live catalog has 19 categories with mega-menus up to 11 subcategories deep — more navigation surface than the original estimate assumed</td></tr>
+        <tr><td>Cart &amp; Checkout</td><td class="num">7</td><td class="num">14</td><td class="why-note">Confirmed payment gateway (Tap Payments) integration, multi-vendor shipping calculated per seller, Cash on Delivery as a parallel path, and live coupon validation</td></tr>
+        <tr><td>Orders &amp; Account</td><td class="num">4</td><td class="num">5</td><td class="why-note">Status-tabbed order history, a dedicated returns flow, and purchase-gated reviews — more structure than "orders & tracking" implied</td></tr>
+        <tr class="highlight"><td>Seller Tools</td><td class="num">8</td><td class="num">25</td><td class="why-note"><b>The largest change.</b> The seller dashboard wasn't accessible before approval — only the public "become a seller" page was visible. Once inside: full product management (variants, images, shipping, bulk upload), a KYC onboarding flow, sales analytics, and payouts, each meaningfully deeper than "seller tools" as a single line item</td></tr>
+        <tr><td>Messaging</td><td class="num">4</td><td class="num">6</td><td class="why-note">Split into separate customer and seller builds, with the delivery method (WebSockets) now confirmed against the platform's own messaging protocol</td></tr>
+        <tr><td>Notifications</td><td class="num">3</td><td class="num">4</td><td class="why-note">Push setup scoped for both iOS and Android individually</td></tr>
+        <tr><td>Localization</td><td class="num">4</td><td class="num">0</td><td class="why-note">Removed from this estimate — the web platform's Arabic support isn't live yet, so there's nothing to build mobile localization against. It returns to scope once a live reference exists</td></tr>
+        <tr><td>Media handling</td><td class="num">3</td><td class="num">0</td><td class="why-note">Folded into Product Detail and Product Management, where the actual image pipeline lives</td></tr>
+        <tr><td>Testing &amp; App Store submission</td><td class="num">10</td><td class="num">11</td><td class="why-note">A larger, more detailed feature set means a larger surface to test across both platforms</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Not in the first estimate at all</h2>
+  <p class="section-hint">These weren't underestimated — they simply weren't visible until the seller dashboard and product pages were tested directly.</p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Feature</th><th class="num">Days</th><th class="num">Cost (PKR)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Wishlist</td><td class="num">2</td><td class="num">12,000</td></tr>
+        <tr><td>Product Detail as its own phase (variant selector, gallery, seller attribution)</td><td class="num">6</td><td class="num">36,000</td></tr>
+        <tr><td>Inventory (a dedicated stock-management view for sellers)</td><td class="num">3</td><td class="num">18,000</td></tr>
+        <tr><td>Seller-created coupons (sellers build and track their own discount codes)</td><td class="num">4</td><td class="num">24,000</td></tr>
+        <tr><td>Seller-created flash deals (sellers run their own time-limited promotions)</td><td class="num">3</td><td class="num">18,000</td></tr>
+        <tr class="total-row"><td>Total new scope</td><td class="num">18</td><td class="num">108,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-box">
+    The 41-day difference between the two estimates (58 → 99 core days) splits into <span class="big">23 days</span> of deeper scope within phases that were already planned, and <span class="big">18 days</span> of features that didn't exist in the first estimate at all. Every phase above is documented in full — with what it includes and how it was confirmed — in the main specification.
+  </div>
+
+  <div class="method">
+    <h2>How this estimate was built</h2>
+    <div class="method-grid">
+      <div class="method-card">
+        <h3>First estimate</h3>
+        <p>Built from browsing the live site — pages, categories, and general layout, without a customer or seller account.</p>
+      </div>
+      <div class="method-card">
+        <h3>Current estimate</h3>
+        <p>Built from a completed customer signup and checkout, an approved seller account taken through the full dashboard, and confirmed technical detail from the backend team.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc">
+    Companion document to the full functional specification, work breakdown, and costing.
+  </footer>
+
+</div>
