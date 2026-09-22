@@ -328,7 +328,7 @@
         <div class="badges"><span class="badge confirmed">confirmed — bigger than originally scoped</span></div>
       </div>
       <ul>
-        <li>Product list with search (title/short name/SKU), a "Missing images" filter, and <b>Bulk Upload</b></li>
+        <li>Product list with search (title/short name/SKU) and a "Missing images" filter</li>
         <li>Add Product form is genuinely complex: Physical vs. Digital product type toggle with different field sets (digital = no shipping/stock, card-only payment, buyer gets an access link)</li>
         <li>Title, slug, model number, SKU/barcode, description, price, original price, stock</li>
         <li>Brand selector — searchable dropdown across 300+ existing brands</li>
@@ -339,6 +339,7 @@
         <li>Trust Badges multi-select (Warranty Available, Product Assembling Available, Secure Payment, Upgrade Available, Condition: Brand new, Condition: Renewed) — these map directly to the "Sold by" box badges on the customer-facing product page</li>
         <li>Product Variants (size/color, independent stock and price per variant)</li>
       </ul>
+      <div class="evidence"><b>Bulk Upload stays web-only</b> — confirmed as the single seller feature that doesn't move to mobile; everything else above, including single-product create/edit, is full mobile scope.</div>
     </div>
 
     <div class="module">
@@ -452,7 +453,7 @@
           <tr class="track-divider"><td colspan="5">Track B — Seller Functionality</td></tr>
           <tr><td class="phase-code">B1</td><td class="phase-name">Foundation &amp; Auth</td><td>App shell/navigation, seller auth, permission layer — built so it can extend to an admin role tier once app-count is decided</td><td class="num">—</td><td class="num">3</td></tr>
           <tr><td class="phase-code">B2</td><td class="phase-name">Onboarding &amp; KYC</td><td>4-step registration wizard, document upload (Trade License / Emirates ID), Seller Agreement acceptance, warehouse/pickup address, pending-approval state</td><td class="num">B1</td><td class="num">7</td></tr>
-          <tr><td class="phase-code">B3</td><td class="phase-name">Product Management</td><td>Physical/Digital product types, brand &amp; category selection, mandatory shipping dimensions, image upload with resize/format pipeline, specifications, trust badges, product variants (size/color with independent stock/price), bulk upload, order management</td><td class="num">B2</td><td class="num">11</td></tr>
+          <tr><td class="phase-code">B3</td><td class="phase-name">Product Management</td><td>Physical/Digital product types, brand &amp; category selection, mandatory shipping dimensions, image upload with resize/format pipeline, specifications, trust badges, product variants (size/color with independent stock/price), order management. Bulk upload stays web-only</td><td class="num">B2</td><td class="num">11</td></tr>
           <tr><td class="phase-code">B4</td><td class="phase-name">Seller Analytics</td><td>Dashboard KPIs, sales trend, orders-by-status, top products, commission breakdown</td><td class="num">B3</td><td class="num">4</td></tr>
           <tr><td class="phase-code">B5</td><td class="phase-name">Payouts</td><td>Earned/Pending/Frozen states, bank/IBAN details, payout history, bi-weekly cadence</td><td class="num">B3</td><td class="num">3</td></tr>
           <tr><td class="phase-code">B6</td><td class="phase-name">Inventory</td><td>Dedicated stock-management view, separate from the product edit form</td><td class="num">B3</td><td class="num">3</td></tr>
