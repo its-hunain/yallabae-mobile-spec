@@ -195,7 +195,7 @@
   <!-- ================= PART 1 — SPEC ================= -->
   <section class="part" id="spec">
     <div class="part-head"><span class="part-num">01</span><h2>Functional Specification</h2></div>
-    <p class="part-intro">Every module below reflects the live platform. Items marked <span class="badge confirmed" style="vertical-align:2px;">confirmed</span> are live and working today; <span class="badge gap" style="vertical-align:2px;">gap</span> marks scope that isn't on the live platform yet, deferred rather than assumed; <span class="badge unknown" style="vertical-align:2px;">unverified</span> marks scope inferred from platform copy rather than a live screen. Admin is out of scope here and will be added once its details are shared.</p>
+    <p class="part-intro">Every module below reflects the live platform. Items marked <span class="badge confirmed" style="vertical-align:2px;">confirmed</span> are live and working today; <span class="badge gap" style="vertical-align:2px;">gap</span> marks scope that isn't on the live platform yet, deferred rather than assumed; <span class="badge unknown" style="vertical-align:2px;">unverified</span> marks scope inferred from platform copy rather than a live screen. Admin is out of scope here and will be added once it's been reviewed the same way — against a live or staging environment, not a code-only repository.</p>
 
     <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 14px;">A — Customer App</h3>
 
@@ -451,7 +451,7 @@
           <tr class="subtotal"><td></td><td colspan="2">Track A subtotal</td><td class="num"></td><td class="num">54</td></tr>
 
           <tr class="track-divider"><td colspan="5">Track B — Seller Functionality</td></tr>
-          <tr><td class="phase-code">B1</td><td class="phase-name">Foundation &amp; Auth</td><td>App shell/navigation, seller auth, permission layer — built so it can extend to an admin role tier once app-count is decided</td><td class="num">—</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">B1</td><td class="phase-name">Foundation &amp; Auth</td><td>App shell/navigation, seller auth, permission layer — structured so an admin role tier can be added once Admin is scoped and its own app-count decision is made</td><td class="num">—</td><td class="num">3</td></tr>
           <tr><td class="phase-code">B2</td><td class="phase-name">Onboarding &amp; KYC</td><td>4-step registration wizard, document upload (Trade License / Emirates ID), Seller Agreement acceptance, warehouse/pickup address, pending-approval state</td><td class="num">B1</td><td class="num">7</td></tr>
           <tr><td class="phase-code">B3</td><td class="phase-name">Product Management</td><td>Physical/Digital product types, brand &amp; category selection, mandatory shipping dimensions, image upload with resize/format pipeline, specifications, trust badges, product variants (size/color with independent stock/price), order management. Bulk upload stays web-only</td><td class="num">B2</td><td class="num">11</td></tr>
           <tr><td class="phase-code">B4</td><td class="phase-name">Seller Analytics</td><td>Dashboard KPIs, sales trend, orders-by-status, top products, commission breakdown</td><td class="num">B3</td><td class="num">4</td></tr>
@@ -473,7 +473,7 @@
     </div>
 
     <div class="callout open" style="margin-top:20px;">
-      <b>Admin excluded · app-count still open —</b> This covers Customer + Seller in full, including the seller dashboard (product management, inventory, seller coupons, seller flash deals, analytics, payouts) and the generic size/color variant selector on the customer side — at 99 working days combined at PKR 6,000/day. Admin becomes Track C once scoped, and app-count (1, 2, or 3 apps) is decided at that point — B1's permission layer is built to support that decision either way.
+      <b>Admin excluded · app-count still open —</b> This covers Customer + Seller in full, including the seller dashboard (product management, inventory, seller coupons, seller flash deals, analytics, payouts) and the generic size/color variant selector on the customer side — at 99 working days combined at PKR 6,000/day. A source-code repository for Admin has been shared, but it becomes Track C only once reviewed against a live or staging environment; app-count (1, 2, or 3 apps) is decided at that point — B1's permission layer is built to support that decision either way.
     </div>
   </section>
 
