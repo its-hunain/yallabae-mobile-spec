@@ -175,13 +175,13 @@
   <header class="doc">
     <span class="eyebrow">Marketplace Mobile App · Working Spec</span>
     <h1 class="title">Yallabae Mobile Marketplace</h1>
-    <p class="subtitle">Functional specification, work breakdown, and cost estimate for the Yallabae mobile app, covering the Customer and Seller sides in full. Admin is excluded until it's verified firsthand.</p>
+    <p class="subtitle">Functional specification, work breakdown, and cost estimate for the Yallabae mobile app, covering Customer, Seller, and Admin in full.</p>
     <div class="meta-row">
       <span><b>Prepared by</b> M.Hunain, for the Yallabae mobile build</span>
       <span><b>Backend</b> Lovable Cloud / Supabase-based; mobile-facing API layer, push infrastructure, and staging environment are the backend team's responsibility — mobile work here is client-side + integration only</span>
-      <span><b>Scope</b> Customer + Seller, full — Admin excluded pending live/staging access</span>
-      <span><b>Proposed</b> 99 working days · PKR 6,000/day · PKR 594,000</span>
-      <span><b>Resourcing</b> Costed on a single resource — the total effort (99 days / PKR 594,000) stays fixed either way, but calendar time can shorten if a second resource works in parallel on independent tracks (e.g. Customer and Seller run side by side)</span>
+      <span><b>Scope</b> Customer + Seller + Admin, full</span>
+      <span><b>Proposed</b> 167 working days · PKR 6,000/day · PKR 1,002,000</span>
+      <span><b>Resourcing</b> Costed on a single resource — the total effort (167 days / PKR 1,002,000) stays fixed either way, but calendar time can shorten if a second resource works in parallel on independent tracks (e.g. Customer, Seller, and Admin run side by side)</span>
       <span><b>Status</b> Complete — Parts 1, 2 &amp; 3 ready for review</span>
     </div>
   </header>
@@ -195,7 +195,7 @@
   <!-- ================= PART 1 — SPEC ================= -->
   <section class="part" id="spec">
     <div class="part-head"><span class="part-num">01</span><h2>Functional Specification</h2></div>
-    <p class="part-intro">Every module below reflects the live platform. Items marked <span class="badge confirmed" style="vertical-align:2px;">confirmed</span> are live and working today; <span class="badge gap" style="vertical-align:2px;">gap</span> marks scope that isn't on the live platform yet, deferred rather than assumed; <span class="badge unknown" style="vertical-align:2px;">unverified</span> marks scope inferred from platform copy rather than a live screen. Admin is out of scope here and will be added once it's been reviewed the same way — against a live or staging environment, not a code-only repository.</p>
+    <p class="part-intro">Every module below reflects the live platform. Items marked <span class="badge confirmed" style="vertical-align:2px;">confirmed</span> are live and working today; <span class="badge gap" style="vertical-align:2px;">gap</span> marks scope that isn't on the live platform yet, deferred rather than assumed; <span class="badge unknown" style="vertical-align:2px;">unverified</span> marks scope inferred from platform copy rather than a live screen.</p>
 
     <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 14px;">A — Customer App</h3>
 
@@ -421,15 +421,167 @@
       </ul>
     </div>
 
-    <div class="callout open">
-      <b>Admin — out of scope for now —</b> A source-code repository has been shared, but Admin will be documented and costed the same way as everything above — against a live or staging environment, not a code-only read — once that access is available.
+    <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:32px 0 14px;">C — Admin Panel</h3>
+    <p class="part-intro" style="margin-bottom:20px;">Reviewed directly in a live admin session (real production data — 157 sellers, 219 users, 1,570 products). Grouped here by function, matching the admin's own navigation.</p>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Dashboard &amp; Analytics</h3><div class="mod-code">ADM-01</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Date-range filters (Today / 7 Days / 30 Days / 90 Days / All Time / Custom) plus a Compare toggle</li>
+        <li>8 KPI tiles: Total Revenue, Commission Earned, VAT Collected, Total Orders, Avg Order Value, Total Customers, Active Sellers, Pending Returns, Pending Reviews, Cancelled Orders</li>
+        <li>"Delivery method requests" panel — sellers requesting self-delivery, each with a Review action inline</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Sellers Management</h3><div class="mod-code">ADM-02</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>List with status tabs (All / Pending / Approved / On Hold / Rejected) and delivery-method filters, search, export</li>
+        <li>Full detail page per seller: owner info, store info, warehouse/pickup address, shipping method, bank account, selected categories, KYC documents (downloadable), Seller Agreement consent with version tracking, embedded products and reviews</li>
+        <li>Pending changes (e.g. a bank-details update) surface inline on the detail page with a before/after comparison and Approve/Reject actions, rejection requiring a reason</li>
+        <li>Internal admin-only notes field (also sent to the seller on rejection/hold); Block Store action</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Document Reviews (KYC queue)</h3><div class="mod-code">ADM-03</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Dedicated queue for pending seller document/detail changes, separate from the main Sellers list, with a waiting-time indicator per item</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Users Management</h3><div class="mod-code">ADM-04</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>All platform users (customer, seller, admin roles) in one list — search, status/role filters, sortable columns (orders, spend, joined date), export</li>
+        <li>Per-user detail view and delete</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Products (moderation + platform-created)</h3><div class="mod-code">ADM-05</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>List with status tabs (Pending / Approved / Rejected / All), search, bulk-select, quick approve/reject, export</li>
+        <li>Full detail view — images, specifications, variants, seller card, flag history, <b>status-change audit history</b> — plus Approve / Reject / Edit / Flag / view-on-storefront actions</li>
+        <li>Edit form matches the seller-side Product Management form in full complexity (Physical/Digital toggle, shipping dimensions, image pipeline, freeform specifications, Trust Badges) — plus admin-only <b>Promotional Badges</b> (Best Seller, New, Hot, Limited, Eco, Featured — up to 2 per product)</li>
+        <li><b>"Create YallaBae Product"</b> — admin can create platform-owned listings directly, not just moderate seller listings</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Catalog Configuration</h3><div class="mod-code">ADM-06</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li><b>Brands</b> — approval queue (450 brands), homepage-visibility flag, sort order</li>
+        <li><b>Attributes</b> — product attribute types and their allowed values (used to standardize seller-entered specifications)</li>
+        <li><b>Categories</b> — nested hierarchy, <b>per-category commission rate</b> (varies by category — e.g. 6% vs 10% seen live), refundable flag, show-on-homepage toggle, homepage order</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Merchandising</h3><div class="mod-code">ADM-07</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li><b>Flash Deals</b> — platform-wide approval queue, homepage-slot count</li>
+        <li><b>Coupons</b> — platform-wide (distinct from seller-created ones), KPI tiles (Pending Review, Active, Total Redemptions, Total Discounts Given), approval queue, Usage Report</li>
+        <li><b>Homepage Banners</b> — 8 distinct placement types (Main, Side Top, Side Bottom, Reasons Top, Reasons Bottom, Promo Wide, Promo Narrow, Featured), each with its own recommended dimensions, reorderable, active toggle per banner</li>
+        <li><b>Featured Collections</b> — curated sections (banner + up to 7 products + link), reorderable, up to 15 sections</li>
+        <li><b>Collections</b> — curated homepage cards (image, title, subtitle, link)</li>
+        <li><b>Reasons to Shop</b> — homepage trust-signal section, simple content management</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Orders (all-seller)</h3><div class="mod-code">ADM-08</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>All orders across every seller — status/payment filters, date ranges, search, export</li>
+        <li>Multi-vendor orders shown with all sellers involved; payment method detail down to the sub-variant (e.g. "Cash On Delivery — Pay By Card Machine")</li>
+        <li>Operational tools: <b>Sync shipment statuses</b> (pulls latest courier status) and <b>Clean up abandoned</b> orders — not just a read-only list</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Returns &amp; Reviews</h3><div class="mod-code">ADM-09</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Returns — status-tabbed queue with a "Fault" column (customer vs. seller), tied to refund handling</li>
+        <li>Reviews — moderation queue (Pending / Approved / Rejected)</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Payouts</h3><div class="mod-code">ADM-10</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed — most complex admin module</span></div>
+      </div>
+      <ul>
+        <li><b>Order Reconciliation</b> health-check panel — automatically verifies that items − discount + shipping + fees = total across recent orders</li>
+        <li>Pending / Paid / Frozen payout summaries, manual payout-period creation (date range)</li>
+        <li>Per-seller payout table with 13 calculated columns per period: gross, coupons, refunds, sales subtotal (incl./ex. VAT), VAT deducted, commission, VAT on commission, shipping collected, ship cost, payout before/after shipping, 20% deferred hold, net payout</li>
+        <li>Export Payouts &amp; VAT</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Site Settings</h3><div class="mod-code">ADM-11</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Top announcement banner (storefront-wide, with optional link)</li>
+        <li>Shipping config — free-shipping threshold, fallback shipping fee (used when the live Posta Plus quote is unavailable), Cash on Delivery fee (charged to the customer, kept by the platform, excluded from seller payouts)</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Policies (legal CMS)</h3><div class="mod-code">ADM-12</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>9 legal/policy pages (About, Cookie Policy, Marketplace Policies, Master Terms, Privacy, Prohibited Products, Refund Policy, Terms of Sale, Terms of Use) — each editable, plus create-new</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Sell With Us Page (landing-page CMS)</h3><div class="mod-code">ADM-13</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed — deeper than expected</span></div>
+      </div>
+      <ul>
+        <li>Full content editor for the public seller-acquisition landing page, across 10 sections: Hero, Ribbon, Why Sell, Launch Offer, What to Sell, How It Works, Fulfillment, Expectations, Who Should Sell, Bottom CTAs</li>
+      </ul>
     </div>
   </section>
 
   <!-- ================= PART 2 — WBS ================= -->
   <section class="part" id="wbs">
     <div class="part-head"><span class="part-num">02</span><h2>Work Breakdown Structure</h2></div>
-    <p class="part-intro">Two functional tracks — <b>Customer</b> and <b>Seller</b> — costed independently of app-count. Whether Customer, Seller, and Admin ship as one app, two, or three is a separate decision, made once Admin is scoped; these day estimates hold either way, since they're driven by feature complexity, not by how many apps the features end up living in.</p>
+    <p class="part-intro">Three functional tracks — <b>Customer</b>, <b>Seller</b>, and <b>Admin</b> — costed independently of app-count. Whether they ship as one app, two, or three is a separate decision; these day estimates hold either way, since they're driven by feature complexity, not by how many apps the features end up living in.</p>
 
     <div class="table-scroll">
       <table>
@@ -463,8 +615,33 @@
           <tr><td class="phase-code">B10</td><td class="phase-name">QA &amp; Store Submission</td><td>QA, store listing (or internal distribution decision), review-cycle buffer</td><td class="num">B1–B9</td><td class="num">5</td></tr>
           <tr class="subtotal"><td></td><td colspan="2">Track B subtotal</td><td class="num"></td><td class="num">45</td></tr>
 
-          <tr class="track-divider"><td colspan="5">Total — Customer + Seller</td></tr>
-          <tr class="subtotal"><td></td><td colspan="2">A + B combined</td><td class="num"></td><td class="num">99</td></tr>
+          <tr class="track-divider"><td colspan="5">Track C — Admin Panel</td></tr>
+          <tr><td class="phase-code">C1</td><td class="phase-name">Foundation &amp; Auth</td><td>Admin login, role-based access, navigation shell</td><td class="num">—</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">C2</td><td class="phase-name">Dashboard &amp; Analytics</td><td>8 KPI tiles, date-range/compare filters, revenue/commission/VAT charts, delivery-method-requests panel</td><td class="num">C1</td><td class="num">5</td></tr>
+          <tr><td class="phase-code">C3</td><td class="phase-name">Sellers Management</td><td>List + filters, full seller detail (owner/store/warehouse/bank/KYC/agreement), inline pending-change approve/reject, block/delete</td><td class="num">C1</td><td class="num">7</td></tr>
+          <tr><td class="phase-code">C4</td><td class="phase-name">Document Reviews</td><td>KYC/detail-change queue, approve/reject flow</td><td class="num">C3</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">C5</td><td class="phase-name">Users Management</td><td>All-role user list, filters, detail view, delete</td><td class="num">C1</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">C6</td><td class="phase-name">Products (moderation + platform-created)</td><td>List, full detail with status/flag history, edit form matching seller-side complexity, admin product creation, Promotional Badges</td><td class="num">C1</td><td class="num">8</td></tr>
+          <tr><td class="phase-code">C7</td><td class="phase-name">Brands</td><td>Approval queue, homepage-visibility flag, sort order</td><td class="num">C1</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">C8</td><td class="phase-name">Attributes</td><td>Attribute types and allowed values</td><td class="num">C1</td><td class="num">1</td></tr>
+          <tr><td class="phase-code">C9</td><td class="phase-name">Categories &amp; Commissions</td><td>Nested hierarchy, per-category commission rate, refundable/home-visibility toggles, ordering</td><td class="num">C1</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">C10</td><td class="phase-name">Flash Deals (platform)</td><td>Approval queue, homepage-slot limit</td><td class="num">C1</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">C11</td><td class="phase-name">Coupons (platform)</td><td>KPIs, approval queue, Usage Report</td><td class="num">C1</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">C12</td><td class="phase-name">Homepage — Banners</td><td>8 placement types, each with own dimensions/ordering/active toggle</td><td class="num">C1</td><td class="num">4</td></tr>
+          <tr><td class="phase-code">C13</td><td class="phase-name">Homepage — Featured Collections</td><td>Banner+products+link sections, reorderable, up to 15</td><td class="num">C1</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">C14</td><td class="phase-name">Homepage — Collections</td><td>Curated cards (image/title/subtitle/link)</td><td class="num">C1</td><td class="num">1</td></tr>
+          <tr><td class="phase-code">C15</td><td class="phase-name">Homepage — Reasons to Shop</td><td>Homepage trust-signal content section</td><td class="num">C1</td><td class="num">1</td></tr>
+          <tr><td class="phase-code">C16</td><td class="phase-name">Orders (all-seller)</td><td>List + filters, sync shipment statuses, clean-up abandoned, export</td><td class="num">C1</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">C17</td><td class="phase-name">Returns &amp; Reviews</td><td>Returns queue with fault-tracking, review moderation queue</td><td class="num">C1</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">C18</td><td class="phase-name">Payouts</td><td>Order Reconciliation health-check, Pending/Paid/Frozen summaries, payout-period creation, 13-column per-seller calculation, export</td><td class="num">C1</td><td class="num">6</td></tr>
+          <tr><td class="phase-code">C19</td><td class="phase-name">Site Settings</td><td>Announcement banner, shipping thresholds/fees, Cash on Delivery fee</td><td class="num">C1</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">C20</td><td class="phase-name">Policies (CMS)</td><td>9 legal pages, editable + create-new</td><td class="num">C1</td><td class="num">1</td></tr>
+          <tr><td class="phase-code">C21</td><td class="phase-name">Sell With Us Page (CMS)</td><td>10-section landing-page content editor</td><td class="num">C1</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">C22</td><td class="phase-name">QA &amp; Store Submission</td><td>Admin-side QA, review-cycle buffer</td><td class="num">C1–C21</td><td class="num">4</td></tr>
+          <tr class="subtotal"><td></td><td colspan="2">Track C subtotal</td><td class="num"></td><td class="num">68</td></tr>
+
+          <tr class="track-divider"><td colspan="5">Total — Customer + Seller + Admin</td></tr>
+          <tr class="subtotal"><td></td><td colspan="2">A + B + C combined</td><td class="num"></td><td class="num">167</td></tr>
 
           <tr class="track-divider"><td colspan="5">Open — not costed</td></tr>
           <tr><td class="phase-code">X1</td><td class="phase-name">Arabic / RTL Localization</td><td>Not present on live site; deferred until the web platform has it live (see CUST-07)</td><td class="num">—</td><td class="num">—</td></tr>
@@ -473,14 +650,14 @@
     </div>
 
     <div class="callout open" style="margin-top:20px;">
-      <b>Admin excluded · app-count still open —</b> This covers Customer + Seller in full, including the seller dashboard (product management, inventory, seller coupons, seller flash deals, analytics, payouts) and the generic size/color variant selector on the customer side — at 99 working days combined at PKR 6,000/day. A source-code repository for Admin has been shared, but it becomes Track C only once reviewed against a live or staging environment; app-count (1, 2, or 3 apps) is decided at that point — B1's permission layer is built to support that decision either way.
+      <b>App-count still open —</b> This covers Customer, Seller, and Admin in full — including the seller dashboard, the generic size/color variant selector, and every admin module reviewed directly in a live session — at 166 working days combined at PKR 6,000/day. Whether the three ship as one app, two, or three is a separate decision; C1's permission layer is built to support that decision either way.
     </div>
   </section>
 
   <!-- ================= PART 3 — COSTING ================= -->
   <section class="part" id="costing">
     <div class="part-head"><span class="part-num">03</span><h2>Costing</h2></div>
-    <p class="part-intro">Day rate: PKR 6,000/day, applied directly to the phases above. Covers Customer + Seller in full; Admin is priced separately once scoped. Every figure below is a day count times the rate — no hidden margin, checkable line by line against the spec.</p>
+    <p class="part-intro">Day rate: PKR 6,000/day, applied directly to the phases above. Covers Customer, Seller, and Admin in full. Every figure below is a day count times the rate — no hidden margin, checkable line by line against the spec.</p>
 
     <div class="table-scroll">
       <table>
@@ -514,18 +691,43 @@
           <tr><td class="phase-code">B10</td><td class="phase-name">QA &amp; Store Submission</td><td class="num">5</td><td class="num">30,000</td></tr>
           <tr class="subtotal"><td></td><td>Track B subtotal</td><td class="num">45</td><td class="num">270,000</td></tr>
 
+          <tr class="track-divider"><td colspan="4">Track C — Admin</td></tr>
+          <tr><td class="phase-code">C1</td><td class="phase-name">Foundation &amp; Auth</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">C2</td><td class="phase-name">Dashboard &amp; Analytics</td><td class="num">5</td><td class="num">30,000</td></tr>
+          <tr><td class="phase-code">C3</td><td class="phase-name">Sellers Management</td><td class="num">7</td><td class="num">42,000</td></tr>
+          <tr><td class="phase-code">C4</td><td class="phase-name">Document Reviews</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">C5</td><td class="phase-name">Users Management</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">C6</td><td class="phase-name">Products (moderation + platform-created)</td><td class="num">8</td><td class="num">48,000</td></tr>
+          <tr><td class="phase-code">C7</td><td class="phase-name">Brands</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">C8</td><td class="phase-name">Attributes</td><td class="num">1</td><td class="num">6,000</td></tr>
+          <tr><td class="phase-code">C9</td><td class="phase-name">Categories &amp; Commissions</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">C10</td><td class="phase-name">Flash Deals (platform)</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">C11</td><td class="phase-name">Coupons (platform)</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">C12</td><td class="phase-name">Homepage — Banners</td><td class="num">4</td><td class="num">24,000</td></tr>
+          <tr><td class="phase-code">C13</td><td class="phase-name">Homepage — Featured Collections</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">C14</td><td class="phase-name">Homepage — Collections</td><td class="num">1</td><td class="num">6,000</td></tr>
+          <tr><td class="phase-code">C15</td><td class="phase-name">Homepage — Reasons to Shop</td><td class="num">1</td><td class="num">6,000</td></tr>
+          <tr><td class="phase-code">C16</td><td class="phase-name">Orders (all-seller)</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">C17</td><td class="phase-name">Returns &amp; Reviews</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">C18</td><td class="phase-name">Payouts</td><td class="num">6</td><td class="num">36,000</td></tr>
+          <tr><td class="phase-code">C19</td><td class="phase-name">Site Settings</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">C20</td><td class="phase-name">Policies (CMS)</td><td class="num">1</td><td class="num">6,000</td></tr>
+          <tr><td class="phase-code">C21</td><td class="phase-name">Sell With Us Page (CMS)</td><td class="num">3</td><td class="num">18,000</td></tr>
+          <tr><td class="phase-code">C22</td><td class="phase-name">QA &amp; Store Submission</td><td class="num">4</td><td class="num">24,000</td></tr>
+          <tr class="subtotal"><td></td><td>Track C subtotal</td><td class="num">68</td><td class="num">408,000</td></tr>
+
           <tr class="track-divider"><td colspan="4">Total</td></tr>
-          <tr class="subtotal"><td></td><td>Customer + Seller, 99 days @ PKR 6,000/day</td><td class="num">99</td><td class="num">594,000</td></tr>
+          <tr class="subtotal"><td></td><td>Customer + Seller + Admin, 167 days @ PKR 6,000/day</td><td class="num">167</td><td class="num">1,002,000</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="callout open" style="margin-top:20px;">
-      <b>Not in this number —</b> Admin, priced once scoped. Full Arabic/RTL localization is deferred too and not priced in, but the RTL-ready layout groundwork in A2/A3 <em>is</em> included, so switching it on later, once the web platform has it live, is low-cost rather than a rebuild.
+      <b>Not in this number —</b> Full Arabic/RTL localization is deferred and not priced in, but the RTL-ready layout groundwork in A2/A3 <em>is</em> included, so switching it on later, once the web platform has it live, is low-cost rather than a rebuild. The "YallaPlatinum" membership perk and saved-card/tokenized payment (both flagged under CUST-04) are also not priced in, pending scope confirmation.
     </div>
 
     <div class="callout open" style="margin-top:12px;">
-      <b>On timeline vs. cost —</b> The 99 days above is total effort, costed for a single resource. If a second resource works alongside, Customer and Seller are independent enough to run in parallel on separate tracks, which shortens calendar time — but the total cost stays PKR 594,000 either way, since it's priced on effort, not on how many people deliver it.
+      <b>On timeline vs. cost —</b> The 166 days above is total effort, costed for a single resource. If more than one resource works in parallel, Customer, Seller, and Admin are independent enough to run on separate tracks, which shortens calendar time — but the total cost stays PKR 996,000 either way, since it's priced on effort, not on how many people deliver it.
     </div>
   </section>
 
