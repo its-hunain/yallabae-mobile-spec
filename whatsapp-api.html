@@ -73,47 +73,47 @@
 
   <header>
     <span class="eyebrow">Yallabae Mobile App · Reference</span>
-    <h1>WhatsApp Business API — Provider Options</h1>
+    <h1>WhatsApp Business API — What to Purchase</h1>
     <p class="subtitle">For sending order-status alerts (new order → seller, dispatch → customer). This is account setup and message-sending infrastructure, handled server-side by the backend — not a mobile app dependency.</p>
   </header>
 
-  <h2>Options</h2>
-  <p class="section-hint">Three common routes, from most direct to most managed.</p>
+  <h2>The API</h2>
+  <p class="section-hint">There's only one underlying API for this: WhatsApp's own <b>Business Platform (Cloud API)</b>. Every provider — Meta directly, or a reseller like Twilio or Gupshup — sends messages through this same API. The choice isn't "which API," it's "which provider account to set it up through."</p>
 
+  <h2>Recommendation</h2>
+  <div class="rec-box">
+    <b>Go with Twilio's WhatsApp Business API.</b> It's the most widely used route to Meta's Cloud API, has the most complete setup documentation, and gets a working number live the fastest. Meta's Cloud API directly is cheaper per message long-term but needs more manual setup (Meta Business verification, template approval handled without a provider's guidance) — not worth the extra effort for this use case.
+  </div>
+
+  <h2>What to actually do</h2>
   <div class="table-scroll">
     <table>
       <thead>
-        <tr><th>Provider</th><th>What it is</th><th>Setup effort</th><th>Notes</th></tr>
+        <tr><th>Step</th><th>What it means</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>Meta Cloud API</td>
-          <td>WhatsApp's own official API, direct from Meta</td>
-          <td>Higher — Meta Business verification, template approval, direct API integration</td>
-          <td>Lowest per-message cost long-term; no middleman markup. Best if a developer is available to integrate it directly.</td>
+          <td>1. Create a Twilio account</td>
+          <td>Sign up at twilio.com — this is the account/billing the client owns.</td>
         </tr>
         <tr>
-          <td>Twilio</td>
-          <td>Third-party wrapper around the Meta API</td>
-          <td>Low — well-documented SDKs, faster to get a working sandbox</td>
-          <td>Adds a small per-message markup over Meta's raw pricing, in exchange for easier integration and support.</td>
+          <td>2. Enable WhatsApp Business API</td>
+          <td>Inside Twilio, request WhatsApp API access and connect (or register) a business phone number.</td>
         </tr>
         <tr>
-          <td>Gupshup / 360dialog</td>
-          <td>Regional Business Solution Providers, also wrap the Meta API</td>
-          <td>Low-medium — guided onboarding, often with local support</td>
-          <td>Commonly used in the UAE/South Asia region; can help directly with number registration and template approval.</td>
+          <td>3. Get message templates approved</td>
+          <td>Meta requires pre-approved templates for automated messages (e.g. "Your order #1234 has been dispatched") — Twilio guides this approval process.</td>
+        </tr>
+        <tr>
+          <td>4. Hand credentials to the backend team</td>
+          <td>Once active, the backend team uses Twilio's API keys to trigger the two message types (new order, dispatched) directly from the server — no mobile app involvement.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="rec-box">
-    All three ultimately send messages through the same underlying Meta WhatsApp Business Platform — the difference is who handles account verification, template approval, and ongoing support. <b>For getting live quickly with reasonable support, Twilio or Gupshup are the more practical starting points</b> over integrating Meta's Cloud API directly.
-  </div>
-
   <div class="note">
-    Whichever provider is chosen, the account, billing, and per-message cost are handled by the client. On the app side, all that's needed is confirming which fields (phone number, order status) the backend will use to trigger the sends — no separate integration work on the mobile app itself.
+    Account creation, verification, and per-message billing are all on the client's side through Twilio. On the app side, the only requirement is that phone numbers are already being collected — which they are, as part of the existing profile scope. No separate mobile-app integration work or cost applies here.
   </div>
 
   <footer class="doc">
