@@ -412,12 +412,12 @@
     <div class="module">
       <div class="mod-head">
         <div><h3 class="mod-title">Buyer-Seller Messaging</h3><div class="mod-code">CUST-08 / SELL-10</div></div>
-        <div class="badges"><span class="badge gap">confirmed in scope — no live reference</span></div>
+        <div class="badges"><span class="badge confirmed">confirmed — live reference exists</span></div>
       </div>
       <ul>
-        <li>In scope, though not present on the live web platform — built new rather than ported from an existing UI</li>
-        <li>Planned: conversation list (tied to an order or product), thread view, send/receive, read/unread state</li>
-        <li>Real-time delivery via WebSockets, matching the platform's existing messaging protocol — plus a push notification tie-in for new messages (shares infrastructure with A8 Notifications)</li>
+        <li>Live on the web platform as product enquiries — a conversation thread tied to a product, with file attachments and email notification on new messages</li>
+        <li>Real-time delivery via <b>Supabase Realtime</b> (not WebSockets — corrected from an earlier assumption), matching the platform's existing messaging protocol</li>
+        <li>Mobile build: conversation list, thread view, send/receive, read/unread state, plus a push notification tie-in for new messages (shares infrastructure with A8 Notifications)</li>
       </ul>
     </div>
 
@@ -446,7 +446,7 @@
           <tr><td class="phase-code">A6</td><td class="phase-name">Checkout</td><td>Shipping address (typed, emirate/city cascade), Tap Payments SDK integration (Card/Apple Pay/Google Pay), Cash on Delivery path, coupon validation, order review</td><td class="num">A5</td><td class="num">9</td></tr>
           <tr><td class="phase-code">A7</td><td class="phase-name">Account Area</td><td>Profile/addresses, Order History (status-tabbed), Returns list + request flow, purchase-gated review submission</td><td class="num">A1, A6</td><td class="num">5</td></tr>
           <tr><td class="phase-code">A8</td><td class="phase-name">Notifications</td><td>Push setup (iOS + Android), in-app alerts (order status, deals)</td><td class="num">A6</td><td class="num">4</td></tr>
-          <tr><td class="phase-code">A9</td><td class="phase-name">Messaging (Customer side)</td><td>Conversation list, thread view, send/receive via WebSockets, read/unread state. No live reference — new build</td><td class="num">A1, A3</td><td class="num">4</td></tr>
+          <tr><td class="phase-code">A9</td><td class="phase-name">Messaging (Customer side)</td><td>Conversation list, thread view, send/receive via Supabase Realtime (matching the platform's existing product-enquiry messaging), read/unread state</td><td class="num">A1, A3</td><td class="num">4</td></tr>
           <tr><td class="phase-code">A10</td><td class="phase-name">QA &amp; Store Submission</td><td>Cross-platform QA, store listing assets, review-cycle buffer (both stores)</td><td class="num">A1–A9</td><td class="num">6</td></tr>
           <tr class="subtotal"><td></td><td colspan="2">Track A subtotal</td><td class="num"></td><td class="num">54</td></tr>
 
@@ -459,7 +459,7 @@
           <tr><td class="phase-code">B6</td><td class="phase-name">Inventory</td><td>Dedicated stock-management view, separate from the product edit form</td><td class="num">B3</td><td class="num">3</td></tr>
           <tr><td class="phase-code">B7</td><td class="phase-name">Seller Coupons</td><td>Coupon builder, redemption tracking, usage report — separate from platform-wide coupon codes</td><td class="num">B3</td><td class="num">4</td></tr>
           <tr><td class="phase-code">B8</td><td class="phase-name">Seller Flash Deals</td><td>Seller-created flash deals, separate from platform-curated ones</td><td class="num">B3</td><td class="num">3</td></tr>
-          <tr><td class="phase-code">B9</td><td class="phase-name">Messaging (Seller side)</td><td>Seller-context thread view, reusing the Customer-side messaging components. No live reference — new build</td><td class="num">A9, B1</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">B9</td><td class="phase-name">Messaging (Seller side)</td><td>Seller-context thread view, reusing the Customer-side messaging components, matching the platform's existing product-enquiry messaging</td><td class="num">A9, B1</td><td class="num">2</td></tr>
           <tr><td class="phase-code">B10</td><td class="phase-name">QA &amp; Store Submission</td><td>QA, store listing (or internal distribution decision), review-cycle buffer</td><td class="num">B1–B9</td><td class="num">5</td></tr>
           <tr class="subtotal"><td></td><td colspan="2">Track B subtotal</td><td class="num"></td><td class="num">45</td></tr>
 
