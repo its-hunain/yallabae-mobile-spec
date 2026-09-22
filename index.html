@@ -581,7 +581,7 @@
   <!-- ================= PART 2 — WBS ================= -->
   <section class="part" id="wbs">
     <div class="part-head"><span class="part-num">02</span><h2>Work Breakdown Structure</h2></div>
-    <p class="part-intro">Three functional tracks — <b>Customer</b>, <b>Seller</b>, and <b>Admin</b> — costed independently of app-count. Whether they ship as one app, two, or three is a separate decision; these day estimates hold either way, since they're driven by feature complexity, not by how many apps the features end up living in.</p>
+    <p class="part-intro">Three functional tracks — <b>Customer</b>, <b>Seller</b>, and <b>Admin</b> — costed independently of app-count. These ship as <b>two apps</b>: Customer standalone, and Seller + Admin combined behind role-based access (see the app structure note). The day estimates below hold either way, since they're driven by feature complexity, not by how the features are packaged.</p>
 
     <div class="table-scroll">
       <table>
@@ -603,7 +603,7 @@
           <tr class="subtotal"><td></td><td colspan="2">Track A subtotal</td><td class="num"></td><td class="num">54</td></tr>
 
           <tr class="track-divider"><td colspan="5">Track B — Seller Functionality</td></tr>
-          <tr><td class="phase-code">B1</td><td class="phase-name">Foundation &amp; Auth</td><td>App shell/navigation, seller auth, permission layer — structured so an admin role tier can be added once Admin is scoped and its own app-count decision is made</td><td class="num">—</td><td class="num">3</td></tr>
+          <tr><td class="phase-code">B1</td><td class="phase-name">Foundation &amp; Auth</td><td>App shell/navigation, seller auth, role-based permission layer shared with Admin (Seller and Admin ship as one combined app)</td><td class="num">—</td><td class="num">3</td></tr>
           <tr><td class="phase-code">B2</td><td class="phase-name">Onboarding &amp; KYC</td><td>4-step registration wizard, document upload (Trade License / Emirates ID), Seller Agreement acceptance, warehouse/pickup address, pending-approval state</td><td class="num">B1</td><td class="num">7</td></tr>
           <tr><td class="phase-code">B3</td><td class="phase-name">Product Management</td><td>Physical/Digital product types, brand &amp; category selection, mandatory shipping dimensions, image upload with resize/format pipeline, specifications, trust badges, product variants (size/color with independent stock/price), order management. Bulk upload stays web-only</td><td class="num">B2</td><td class="num">11</td></tr>
           <tr><td class="phase-code">B4</td><td class="phase-name">Seller Analytics</td><td>Dashboard KPIs, sales trend, orders-by-status, top products, commission breakdown</td><td class="num">B3</td><td class="num">4</td></tr>
@@ -650,7 +650,7 @@
     </div>
 
     <div class="callout open" style="margin-top:20px;">
-      <b>App-count still open —</b> This covers Customer, Seller, and Admin in full — including the seller dashboard, the generic size/color variant selector, and every admin module reviewed directly in a live session — at 166 working days combined at PKR 6,000/day. Whether the three ship as one app, two, or three is a separate decision; C1's permission layer is built to support that decision either way.
+      <b>Two apps —</b> This covers Customer, Seller, and Admin in full — including the seller dashboard, the generic size/color variant selector, and every admin module reviewed directly in a live session — at 167 working days combined at PKR 6,000/day. Customer ships standalone; Seller and Admin ship as one combined app behind role-based access, sharing C1's permission layer.
     </div>
   </section>
 
@@ -727,7 +727,7 @@
     </div>
 
     <div class="callout open" style="margin-top:12px;">
-      <b>On timeline vs. cost —</b> The 166 days above is total effort, costed for a single resource. If more than one resource works in parallel, Customer, Seller, and Admin are independent enough to run on separate tracks, which shortens calendar time — but the total cost stays PKR 996,000 either way, since it's priced on effort, not on how many people deliver it.
+      <b>On timeline vs. cost —</b> The 167 days above is total effort, costed for a single resource. If more than one resource works in parallel, Customer, Seller, and Admin are independent enough to run on separate tracks, which shortens calendar time — but the total cost stays PKR 1,002,000 either way, since it's priced on effort, not on how many people deliver it.
     </div>
   </section>
 
