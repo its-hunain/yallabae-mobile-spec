@@ -175,11 +175,11 @@
   <header class="doc">
     <span class="eyebrow">Marketplace Mobile App · Working Spec</span>
     <h1 class="title">Yallabae Mobile Marketplace</h1>
-    <p class="subtitle">Functional specification, work breakdown, and cost estimate for the Yallabae mobile app, covering the Customer and Seller sides in full. Admin is excluded until its scope is shared.</p>
+    <p class="subtitle">Functional specification, work breakdown, and cost estimate for the Yallabae mobile app, covering the Customer and Seller sides in full. Admin is excluded until it's verified firsthand.</p>
     <div class="meta-row">
       <span><b>Prepared by</b> M.Hunain, for the Yallabae mobile build</span>
       <span><b>Backend</b> Lovable Cloud / Supabase-based; mobile-facing API layer, push infrastructure, and staging environment are the backend team's responsibility — mobile work here is client-side + integration only</span>
-      <span><b>Scope</b> Customer + Seller, full — Admin excluded until scoped</span>
+      <span><b>Scope</b> Customer + Seller, full — Admin excluded pending live/staging access</span>
       <span><b>Proposed</b> 99 working days · PKR 6,000/day · PKR 594,000</span>
       <span><b>Resourcing</b> Costed on a single resource — the total effort (99 days / PKR 594,000) stays fixed either way, but calendar time can shorten if a second resource works in parallel on independent tracks (e.g. Customer and Seller run side by side)</span>
       <span><b>Status</b> Complete — Parts 1, 2 &amp; 3 ready for review</span>
@@ -251,6 +251,9 @@
         <li>Multi-vendor orders itemize shipping per seller (e.g. "Delivered by Comms and Goods LLC — AED 1.00")</li>
         <li>Delivery estimate shown contextually (e.g. "24–48 hours" for Dubai)</li>
       </ul>
+      <div class="evidence">
+        <b>Two items in the design are open questions, not yet priced:</b> a saved-card / tokenized payment option (CVV re-entry on a stored card) — pending confirmation on whether this runs through Tap Payments' own hosted vault or requires custom secure storage; and a "YallaPlatinum" membership perk shown on Express delivery — pending scope and timing from the client before it's costed.
+      </div>
     </div>
 
     <div class="module">
@@ -418,7 +421,7 @@
     </div>
 
     <div class="callout open">
-      <b>Admin — out of scope for now —</b> Admin will be documented and costed the same way as everything above, once its scope is available to review.
+      <b>Admin — out of scope for now —</b> A source-code repository has been shared, but Admin will be documented and costed the same way as everything above — against a live or staging environment, not a code-only read — once that access is available.
     </div>
   </section>
 
