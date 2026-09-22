@@ -1,0 +1,141 @@
+<title>App Structure Decision</title>
+<style>
+  :root{
+    --ink:#14213D;
+    --accent:#1B7F4C;
+    --accent-bg:#E8F5EE;
+    --ground:#F7F7F5;
+    --surface:#FFFFFF;
+    --muted:#5C6470;
+    --line:#E5E3DD;
+    --line-strong:#D6D3CA;
+    --code-bg:#F1EFE9;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ink:#EDEEF2; --accent:#4ADE94; --accent-bg:#12261C;
+      --ground:#15161B; --surface:#1C1E26; --muted:#9CA1AF;
+      --line:#2C2E38; --line-strong:#3A3D4A; --code-bg:#20222C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEEF2; --accent:#4ADE94; --accent-bg:#12261C;
+    --ground:#15161B; --surface:#1C1E26; --muted:#9CA1AF;
+    --line:#2C2E38; --line-strong:#3A3D4A; --code-bg:#20222C;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:16px; line-height:1.55;
+  }
+  .wrap{ max-width:860px; margin:0 auto; padding-block:32px 70px; }
+  h1,h2{ font-family:'Fraunces',Georgia,serif; text-wrap:balance; }
+
+  header{ margin-bottom:28px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-bg); display:inline-block; padding:4px 10px; border-radius:4px;
+    margin-bottom:14px; border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  h1{ font-size:clamp(24px,4.5vw,32px); font-weight:600; margin:0 0 10px; line-height:1.2; }
+  .subtitle{ color:var(--muted); font-size:15px; max-width:66ch; }
+
+  h2{ font-size:19px; font-weight:600; margin:36px 0 6px; }
+  .section-hint{ color:var(--muted); font-size:13.5px; margin-bottom:16px; max-width:66ch; }
+
+  .apps-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  @media (max-width:640px){ .apps-grid{ grid-template-columns:1fr; } }
+  .app-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:24px;
+  }
+  .app-card h3{ font-size:18px; font-weight:600; margin:0 0 4px; }
+  .app-card .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:14px; display:block;
+  }
+  .app-card ul{ margin:0; padding-left:18px; font-size:13.5px; }
+  .app-card li{ margin-bottom:6px; }
+
+  .rec-box{
+    background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:10px; padding:18px 22px; margin:20px 0; font-size:14.5px;
+  }
+  .rec-box b{ color:var(--accent); }
+
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--surface); margin-bottom:16px; }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:560px; }
+  thead th{
+    text-align:left; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted);
+    padding:10px 14px; border-bottom:1px solid var(--line-strong); background:var(--code-bg); white-space:nowrap;
+  }
+  tbody td{ padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:none; }
+
+  .note{
+    font-size:13px; color:var(--muted); background:var(--code-bg); border:1px solid var(--line);
+    border-radius:10px; padding:14px 18px; margin-top:28px;
+  }
+
+  footer.doc{ margin-top:48px; padding-top:18px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<div class="wrap">
+
+  <header>
+    <span class="eyebrow">Yallabae Mobile App · Decision</span>
+    <h1>App Structure: Two Apps</h1>
+    <p class="subtitle">How Customer, Seller, and Admin split across mobile apps — and why.</p>
+  </header>
+
+  <h2>The structure</h2>
+  <div class="apps-grid">
+    <div class="app-card">
+      <h3>Customer App</h3>
+      <span class="tag">Public · App Store + Play Store</span>
+      <ul>
+        <li>Browsing, product detail, cart, checkout, account, wishlist, messaging</li>
+        <li>Built for the general public — anyone can download it</li>
+      </ul>
+    </div>
+    <div class="app-card">
+      <h3>Seller + Admin App</h3>
+      <span class="tag">Role-based · One app, two experiences</span>
+      <ul>
+        <li>One login screen, one app — what a user sees depends on their role</li>
+        <li>A seller sees their store's dashboard, products, orders, payouts</li>
+        <li>An admin sees the full platform view — all sellers, all orders, site-wide settings</li>
+        <li>Distributed the same way (App Store/Play Store, or restricted access if preferred for the admin role)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Why this split</h2>
+  <div class="rec-box">
+    Seller and Admin are both <b>operations tools</b> — lists, forms, approvals, dashboards — a fundamentally different kind of app than the Customer side, which is a consumer shopping experience. Combining Seller and Admin behind role-based access means one shared codebase for both, rather than three separate apps to build and maintain, while keeping the Customer app focused purely on shopping.
+  </div>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Consideration</th><th>Why it points to 2 apps</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>User base size</td><td>Admin has effectively one user (the platform owner/team) — not worth a separate app-store listing and release cycle on its own</td></tr>
+        <tr><td>UI pattern</td><td>Seller and Admin share the same shape of screens (dashboards, tables, approve/reject actions) — Customer doesn't</td></tr>
+        <tr><td>Architecture</td><td>The seller app's foundation layer (auth, permissions) is already built to support an admin role tier — no rework needed to combine them</td></tr>
+        <tr><td>Maintenance</td><td>Two codebases to update and release, not three</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    This is a structural decision, not a scope decision — every module in the specification (Customer, Seller, and Admin) is still built and priced exactly as documented. This only decides how many app-store listings and codebases they're packaged into.
+  </div>
+
+  <footer class="doc">
+    Companion note to the full functional specification, work breakdown, and costing.
+  </footer>
+
+</div>
