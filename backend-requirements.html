@@ -1,0 +1,140 @@
+<title>Backend Requirements — Mobile App</title>
+<style>
+  :root{
+    --ink:#14213D;
+    --accent:#B54708;
+    --accent-bg:#FDF1E8;
+    --ground:#F7F7F5;
+    --surface:#FFFFFF;
+    --muted:#5C6470;
+    --line:#E5E3DD;
+    --line-strong:#D6D3CA;
+    --ok:#1B7F4C;
+    --ok-bg:#E8F5EE;
+    --gap:#C2410C;
+    --gap-bg:#FFF1EA;
+    --code-bg:#F1EFE9;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ink:#EDEEF2; --accent:#FDBA74; --accent-bg:#2B1D0F;
+      --ground:#15161B; --surface:#1C1E26; --muted:#9CA1AF; --line:#2C2E38;
+      --ok:#4ADE94; --ok-bg:#12261C; --gap:#FDBA74; --gap-bg:#2B1D0F;
+      --code-bg:#20222C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEEF2; --accent:#FDBA74; --accent-bg:#2B1D0F;
+    --ground:#15161B; --surface:#1C1E26; --muted:#9CA1AF; --line:#2C2E38;
+    --ok:#4ADE94; --ok-bg:#12261C; --gap:#FDBA74; --gap-bg:#2B1D0F;
+    --code-bg:#20222C;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:16px; line-height:1.55;
+  }
+  .wrap{ max-width:840px; margin:0 auto; padding-block:32px 70px; }
+  h1,h2{ font-family:'Fraunces',Georgia,serif; text-wrap:balance; }
+
+  header{ margin-bottom:28px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-bg); display:inline-block; padding:4px 10px; border-radius:4px;
+    margin-bottom:14px; border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  h1{ font-size:clamp(24px,4.5vw,32px); font-weight:600; margin:0 0 10px; line-height:1.2; }
+  .subtitle{ color:var(--muted); font-size:15px; max-width:66ch; }
+
+  h2{ font-size:19px; font-weight:600; margin:36px 0 6px; display:flex; align-items:center; gap:8px; }
+  .section-hint{ color:var(--muted); font-size:13.5px; margin-bottom:16px; max-width:66ch; }
+
+  .item{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:20px 24px; margin-bottom:14px;
+  }
+  .item-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:8px; }
+  .item-title{ font-weight:600; font-size:16px; }
+  .badge{ font-size:11px; font-weight:700; padding:3px 10px; border-radius:100px; white-space:nowrap; flex-shrink:0; }
+  .badge.gap{ background:var(--gap-bg); color:var(--gap); }
+  .badge.ok{ background:var(--ok-bg); color:var(--ok); }
+  .item-body{ font-size:14px; color:var(--ink); opacity:.92; }
+  .item-body p{ margin:0 0 8px; }
+  .item-body p:last-child{ margin-bottom:0; }
+  .item-body code{ background:var(--code-bg); padding:1px 6px; border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; }
+  .item-body ul{ margin:6px 0 0; padding-left:20px; }
+  .item-body li{ margin-bottom:4px; }
+
+  .note{
+    font-size:13px; color:var(--muted); background:var(--code-bg); border:1px solid var(--line);
+    border-radius:10px; padding:14px 18px; margin-top:28px;
+  }
+
+  footer.doc{ margin-top:48px; padding-top:18px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<div class="wrap">
+
+  <header>
+    <span class="eyebrow">Yallabae Mobile App · For the Backend Team</span>
+    <h1>Backend Requirements for Mobile</h1>
+    <p class="subtitle">Based on a review of the current codebase, here's what's already in good shape for mobile integration, and what still needs to be built on the backend side before the mobile app can rely on it.</p>
+  </header>
+
+  <h2>What's already mobile-ready</h2>
+  <p class="section-hint">No changes needed here — the mobile app can integrate directly against what exists today.</p>
+
+  <div class="item">
+    <div class="item-head"><div class="item-title">Authentication</div><span class="badge ok">Ready</span></div>
+    <div class="item-body">
+      <p>API access is already token-based (Bearer token via Supabase Auth), not tied to a web session cookie. This is exactly the pattern a mobile app needs — no separate mobile auth flow has to be built on the backend side.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><div class="item-title">Core data access</div><span class="badge ok">Ready</span></div>
+    <div class="item-body">
+      <p>Products, orders, sellers, and most other core data are accessed directly via the Supabase client SDK with Row-Level Security — the same approach the web app uses. Mobile will integrate the same way; there's no separate "mobile API" to build for basic reads and writes.</p>
+    </div>
+  </div>
+
+  <h2>What still needs backend work</h2>
+  <p class="section-hint">These are gaps that need backend-side work before the mobile app can depend on them.</p>
+
+  <div class="item">
+    <div class="item-head"><div class="item-title">Push notifications</div><span class="badge gap">Needs building</span></div>
+    <div class="item-body">
+      <p>There's currently no push notification infrastructure — no device-token registration or storage, and no FCM (Android) or APNs (iOS) integration. Today, notifications go out as email and an in-app bell only.</p>
+      <p>The good news: a clean notification-event list already exists in the codebase (<code>new_order</code>, <code>order_shipped</code>, <code>payout_processed</code>, and others), which can be reused as the trigger points once push delivery is added — this isn't a redesign, just a new delivery channel on top of events that are already fired.</p>
+      <ul>
+        <li>Needs: a device-token storage table/endpoint (mobile registers its push token on login)</li>
+        <li>Needs: FCM + APNs dispatch wired to the existing notification events</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><div class="item-title">WhatsApp order notifications</div><span class="badge gap">Needs building</span></div>
+    <div class="item-body">
+      <p>Not built yet — this is the WhatsApp Business API integration discussed separately (seller alert on new order, customer alert on dispatch). Like push notifications, this can hook into the same order-create and dispatch events already firing in the system; it just needs the WhatsApp Business API account and the trigger logic added.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-head"><div class="item-title">Payment gateway migration</div><span class="badge gap">In progress</span></div>
+    <div class="item-body">
+      <p>The current codebase has Stripe live in production. Confirmed this is actively being migrated to Tap Payments — flagging here so the mobile checkout build is timed against whichever gateway is live when that work starts, rather than assuming Tap Payments is already in place.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    This list reflects a code review of the current repository snapshot, not a live walkthrough — if any of this has moved since, let us know so the mobile scope stays aligned with what's actually live.
+  </div>
+
+  <footer class="doc">
+    Companion note to the mobile app functional specification.
+  </footer>
+
+</div>
