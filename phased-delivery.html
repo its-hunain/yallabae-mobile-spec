@@ -1,0 +1,169 @@
+<title>Phased Delivery Plan</title>
+<style>
+  :root{
+    --ink:#14213D;
+    --accent:#FCA311;
+    --accent-ink:#7A4E00;
+    --ground:#F7F7F5;
+    --surface:#FFFFFF;
+    --muted:#5C6470;
+    --line:#E5E3DD;
+    --line-strong:#D6D3CA;
+    --p1:#1B7F4C;
+    --p1-bg:#E8F5EE;
+    --p2:#8A5CF6;
+    --p2-bg:#F1ECFE;
+    --code-bg:#F1EFE9;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ink:#EDEEF2; --accent:#FFB733; --accent-ink:#FFD98C;
+      --ground:#15161B; --surface:#1C1E26; --muted:#9CA1AF;
+      --line:#2C2E38; --line-strong:#3A3D4A;
+      --p1:#4ADE94; --p1-bg:#12261C; --p2:#C4B0FF; --p2-bg:#241B3D;
+      --code-bg:#20222C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEEF2; --accent:#FFB733; --accent-ink:#FFD98C;
+    --ground:#15161B; --surface:#1C1E26; --muted:#9CA1AF;
+    --line:#2C2E38; --line-strong:#3A3D4A;
+    --p1:#4ADE94; --p1-bg:#12261C; --p2:#C4B0FF; --p2-bg:#241B3D;
+    --code-bg:#20222C;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:16px; line-height:1.55;
+  }
+  .wrap{ max-width:880px; margin:0 auto; padding-block:32px 70px; }
+  h1,h2,h3{ font-family:'Fraunces',Georgia,serif; text-wrap:balance; color:var(--ink); }
+
+  header.doc{ margin-bottom:32px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent-ink); background:var(--code-bg); display:inline-block; padding:4px 10px; border-radius:4px;
+    margin-bottom:14px; border:1px solid var(--line-strong);
+  }
+  h1.title{ font-size:clamp(26px,4.8vw,36px); font-weight:600; margin:0 0 10px; line-height:1.15; }
+  .subtitle{ color:var(--muted); font-size:15.5px; max-width:64ch; margin:0; }
+
+  .phases-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:28px 0; }
+  @media (max-width:640px){ .phases-grid{ grid-template-columns:1fr; } }
+  .phase-card{
+    background:var(--surface); border-radius:14px; padding:24px; border:2px solid;
+  }
+  .phase-card.p1{ border-color:var(--p1); }
+  .phase-card.p2{ border-color:var(--p2); }
+  .phase-label{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    padding:3px 10px; border-radius:100px; display:inline-block; margin-bottom:12px;
+  }
+  .phase-card.p1 .phase-label{ background:var(--p1-bg); color:var(--p1); }
+  .phase-card.p2 .phase-label{ background:var(--p2-bg); color:var(--p2); }
+  .phase-card h3{ font-size:20px; margin:0 0 6px; font-weight:600; }
+  .phase-card .phase-sub{ color:var(--muted); font-size:13.5px; margin-bottom:16px; }
+  .phase-num{ font-family:'IBM Plex Mono',monospace; font-size:28px; font-weight:600; }
+  .phase-num .unit{ font-size:14px; color:var(--muted); font-weight:500; }
+  .phase-card ul{ margin:16px 0 0; padding-left:20px; font-size:13.5px; }
+  .phase-card li{ margin-bottom:5px; }
+  .arrow-between{
+    text-align:center; color:var(--muted); font-size:13px; margin:-8px 0 20px;
+    grid-column:1/-1;
+  }
+  @media (min-width:641px){ .arrow-between{ display:none; } }
+
+  h2{ font-size:20px; font-weight:600; margin:40px 0 8px; }
+  .section-hint{ color:var(--muted); font-size:14px; margin-bottom:16px; max-width:66ch; }
+
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--surface); margin-bottom:14px; }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:520px; }
+  thead th{
+    text-align:left; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted);
+    padding:10px 14px; border-bottom:1px solid var(--line-strong); background:var(--code-bg); white-space:nowrap;
+  }
+  tbody td{ padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:none; }
+  td.num, th.num{ text-align:right; font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  tr.total-row td{ font-weight:700; background:var(--code-bg); }
+
+  .rec-box{
+    background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:10px; padding:18px 22px; margin:20px 0; font-size:14.5px;
+  }
+  .rec-box b{ color:var(--accent-ink); }
+
+  .note{
+    font-size:13px; color:var(--muted); background:var(--code-bg); border:1px solid var(--line);
+    border-radius:10px; padding:14px 18px; margin-top:28px;
+  }
+
+  footer.doc{ margin-top:48px; padding-top:18px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<div class="wrap">
+
+  <header class="doc">
+    <span class="eyebrow">Yallabae Mobile App · Delivery Plan</span>
+    <h1 class="title">Phased Delivery</h1>
+    <p class="subtitle">Customer and Seller ship first, getting real users onto the platform as early as possible. Admin follows as its own phase once the app is live — same total scope, split into two natural stages.</p>
+  </header>
+
+  <div class="phases-grid">
+    <div class="phase-card p1">
+      <span class="phase-label">Phase 1</span>
+      <h3>Customer + Seller</h3>
+      <div class="phase-sub">Gets the app live — customers can shop, sellers can operate</div>
+      <div class="phase-num">99 <span class="unit">working days</span></div>
+      <div class="phase-num" style="font-size:20px;color:var(--muted);margin-top:2px;">PKR 594,000</div>
+      <ul>
+        <li>Full customer shopping experience — catalog, checkout, account, messaging</li>
+        <li>Full seller operations — products, orders, payouts, analytics, coupons</li>
+        <li>Independently launchable — the platform runs end-to-end on this alone</li>
+      </ul>
+    </div>
+    <div class="phase-card p2">
+      <span class="phase-label">Phase 2</span>
+      <h3>Admin</h3>
+      <div class="phase-sub">Brings platform-wide oversight into the mobile app</div>
+      <div class="phase-num">68 <span class="unit">working days</span></div>
+      <div class="phase-num" style="font-size:20px;color:var(--muted);margin-top:2px;">PKR 408,000</div>
+      <ul>
+        <li>Full admin panel — sellers, products, orders, payouts, merchandising, site config</li>
+        <li>Built on the same permission layer already in the Seller app — no rework needed to add it</li>
+        <li>Can start as soon as Phase 1 is delivered, or run in parallel with a second resource</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Combined total</h2>
+  <p class="section-hint">Same scope, same numbers as the full specification — this is a sequencing view, not a different estimate.</p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Phase</th><th class="num">Days</th><th class="num">Cost (PKR)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Phase 1 — Customer + Seller</td><td class="num">99</td><td class="num">594,000</td></tr>
+        <tr><td>Phase 2 — Admin</td><td class="num">68</td><td class="num">408,000</td></tr>
+        <tr class="total-row"><td>Total</td><td class="num">167</td><td class="num">1,002,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rec-box">
+    <b>Why split it this way:</b> Customer and Seller are what make the platform usable — once Phase 1 ships, the business is running on mobile. Admin is internal tooling (used by one team, not published for a mass audience), so it doesn't block launch. Splitting the two means a smaller first commitment and an earlier live date, without changing the total scope or cost.
+  </div>
+
+  <div class="note">
+    Phase 2 can start immediately after Phase 1, or run in parallel on a second resource if the timeline needs to compress — see the app structure note for how Seller and Admin share one combined app and permission layer.
+  </div>
+
+  <footer class="doc">
+    Companion note to the full functional specification, work breakdown, and costing.
+  </footer>
+
+</div>
