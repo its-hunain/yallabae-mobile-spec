@@ -1,0 +1,398 @@
+<title>Yallabae Mobile Spec — Customer App</title>
+<style>
+  :root{
+    --ink:#14213D;
+    --accent:#FCA311;
+    --accent-ink:#7A4E00;
+    --ground:#F7F7F5;
+    --surface:#FFFFFF;
+    --muted:#5C6470;
+    --line:#E5E3DD;
+    --line-strong:#D6D3CA;
+    --ok:#1B7F4C;
+    --ok-bg:#E8F5EE;
+    --pending:#B54708;
+    --pending-bg:#FDF1E8;
+    --unknown:#8A5CF6;
+    --unknown-bg:#F1ECFE;
+    --code-bg:#F1EFE9;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ink:#EDEEF2;
+      --accent:#FFB733;
+      --accent-ink:#FFD98C;
+      --ground:#15161B;
+      --surface:#1C1E26;
+      --muted:#9CA1AF;
+      --line:#2C2E38;
+      --line-strong:#3A3D4A;
+      --ok:#4ADE94;
+      --ok-bg:#12261C;
+      --pending:#FDBA74;
+      --pending-bg:#2B1D0F;
+      --unknown:#C4B0FF;
+      --unknown-bg:#241B3D;
+      --code-bg:#20222C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEEF2;
+    --accent:#FFB733;
+    --accent-ink:#FFD98C;
+    --ground:#15161B;
+    --surface:#1C1E26;
+    --muted:#9CA1AF;
+    --line:#2C2E38;
+    --line-strong:#3A3D4A;
+    --ok:#4ADE94;
+    --ok-bg:#12261C;
+    --pending:#FDBA74;
+    --pending-bg:#2B1D0F;
+    --unknown:#C4B0FF;
+    --unknown-bg:#241B3D;
+    --code-bg:#20222C;
+  }
+
+  * { box-sizing:border-box; }
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:16px;
+    line-height:1.55;
+  }
+  .wrap{ max-width:920px; margin:0 auto; padding-block:32px 80px; }
+
+  h1,h2,h3{ font-family:'Fraunces',Georgia,serif; text-wrap:balance; color:var(--ink); }
+
+  header.doc{ margin-bottom:40px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent-ink); background:var(--code-bg); display:inline-block; padding:4px 10px; border-radius:4px;
+    margin-bottom:14px; border:1px solid var(--line-strong);
+  }
+  h1.title{ font-size:clamp(28px,5vw,42px); font-weight:600; margin:0 0 10px; line-height:1.12; }
+  .subtitle{ color:var(--muted); font-size:16px; max-width:62ch; margin:0 0 20px; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:10px 24px; font-size:13px; color:var(--muted); border-top:1px solid var(--line); padding-top:16px; }
+  .meta-row b{ color:var(--ink); font-weight:600; }
+
+  nav.parts{
+    position:sticky; top:env(safe-area-inset-top,0px);
+    display:flex; gap:2px; background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:4px; margin-bottom:44px; z-index:5; box-shadow:0 1px 2px rgba(0,0,0,.04);
+    overflow-x:auto;
+  }
+  nav.parts a{
+    flex:1; text-align:center; white-space:nowrap; padding:9px 14px; border-radius:7px; font-size:13.5px; font-weight:600;
+    color:var(--muted); text-decoration:none;
+  }
+  nav.parts a:hover{ background:var(--code-bg); color:var(--ink); }
+
+  section.part{ margin-bottom:64px; scroll-margin-top:70px; }
+  .part-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+  .part-num{ font-size:15px; color:var(--accent-ink); background:var(--code-bg); border:1px solid var(--line-strong); border-radius:6px; padding:2px 9px; }
+  .part-head h2{ font-size:26px; margin:0; font-weight:600; }
+  .part-intro{ color:var(--muted); max-width:66ch; margin:0 0 28px; font-size:15px; }
+
+  h3.mod-title{ font-size:19px; margin:0 0 4px; font-weight:600; }
+  .module{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:16px;
+  }
+  .mod-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:10px; }
+  .mod-code{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); }
+  .badges{ display:flex; gap:6px; flex-wrap:wrap; }
+  .badge{ font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px; white-space:nowrap; letter-spacing:.01em; }
+  .badge.confirmed{ background:var(--ok-bg); color:var(--ok); }
+  .badge.gap{ background:var(--pending-bg); color:var(--pending); }
+  .badge.unknown{ background:var(--unknown-bg); color:var(--unknown); }
+
+  .mod ul{ margin:8px 0 0; padding-left:20px; }
+  .mod li{ margin-bottom:4px; font-size:14.5px; }
+  .evidence{
+    margin-top:14px; padding-top:12px; border-top:1px dashed var(--line-strong);
+    font-size:13px; color:var(--muted);
+  }
+  .evidence b{ color:var(--ink); }
+
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--surface); }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px; }
+  thead th{
+    text-align:left; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
+    padding:12px 14px; border-bottom:1px solid var(--line-strong); background:var(--code-bg); white-space:nowrap;
+  }
+  tbody td{ padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr.subtotal td{ background:var(--code-bg); font-weight:600; }
+  td.num, th.num{ text-align:right; font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td.phase-name{ font-weight:600; }
+  td.phase-code{ font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:12px; }
+  .track-divider td{ background:var(--ink); color:var(--ground); font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; padding:8px 14px; }
+
+  .callout{ border-radius:10px; padding:14px 16px; font-size:13.5px; margin:20px 0; border:1px solid; }
+  .callout.open{ background:var(--pending-bg); border-color:var(--pending); color:var(--ink); }
+  .callout.open b{ color:var(--pending); }
+  .callout.ok{ background:var(--ok-bg); border-color:var(--ok); color:var(--ink); }
+  .callout.ok b{ color:var(--ok); }
+
+  footer.doc{ margin-top:60px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); }
+
+  @media (max-width:560px){
+    .mod-head{ flex-direction:column; }
+    nav.parts{ font-size:12px; }
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<div class="wrap">
+
+  <header class="doc">
+    <span class="eyebrow">Marketplace Mobile App · Working Spec — Revised</span>
+    <h1 class="title">Yallabae Mobile — Customer App</h1>
+    <p class="subtitle">Functional specification, work breakdown, and cost estimate for the Yallabae Customer mobile app. Seller and Admin mobile apps are out of scope for this phase, per the decision to focus on Customer first.</p>
+    <div class="meta-row">
+      <span><b>Prepared by</b> M.Hunain, for the Yallabae mobile build</span>
+      <span><b>Backend</b> Lovable Cloud / Supabase-based; mobile-facing API layer, push infrastructure, and staging environment are the backend team's responsibility — mobile work here is client-side + integration only</span>
+      <span><b>Scope</b> Customer App only — Seller and Admin mobile apps deferred to a later phase</span>
+      <span><b>Proposed</b> 54 working days · PKR 6,000/day · PKR 324,000</span>
+      <span><b>Status</b> Complete — ready for review</span>
+    </div>
+  </header>
+
+  <nav class="parts">
+    <a href="#spec">1 · Functional Spec</a>
+    <a href="#admin">2 · Admin Panel (Web)</a>
+    <a href="#wbs">3 · Work Breakdown</a>
+    <a href="#costing">4 · Costing</a>
+  </nav>
+
+  <!-- ================= PART 1 — SPEC ================= -->
+  <section class="part" id="spec">
+    <div class="part-head"><span class="part-num">01</span><h2>Functional Specification — Customer App</h2></div>
+    <p class="part-intro">Every module below reflects the live platform and the Customer Figma design, cross-checked screen by screen. Items marked <span class="badge confirmed" style="vertical-align:2px;">confirmed</span> are live and working today; <span class="badge gap" style="vertical-align:2px;">gap</span> marks scope that isn't on the live platform yet, deferred rather than assumed.</p>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Catalog &amp; Navigation</h3><div class="mod-code">CUST-01</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>19 categories total (11 top-level + 8 under "More"), each opening a mega-menu of up to 11 subcategories</li>
+        <li>Category listing pages: subcategory chips, price-range filter, star-rating filter, multi-select brand filter, 5-way sort (Featured / Price ↑ / Price ↓ / Rating / Newest)</li>
+        <li>Search with the same faceted filters</li>
+        <li>Flash Deals page: shared countdown timer across listed deals, per-product "% sold" progress bar</li>
+        <li>Homepage sections (promo banners, curated collections, top brands, trust-signal strip) render content that's managed entirely from the existing web Admin panel — no new admin work needed for the Customer app to display it</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Product Detail</h3><div class="mod-code">CUST-02</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Image gallery, price + discount badge, stock urgency messaging ("only 1 left")</li>
+        <li>Per-product seller attribution card (confirmed genuine multi-vendor)</li>
+        <li>Ratings and reviews, including photo/video review attachments and category-specific review attributes (e.g. fragrance longevity/projection) where sellers have supplied that data</li>
+        <li>Variant selector (size/color/etc.), generic rather than hardcoded — handles whatever variant types a seller lists</li>
+        <li>Freeform specification blocks (top notes, care instructions, etc.) sourced from the seller's product listing</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Wishlist</h3><div class="mod-code">CUST-03</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Dual behavior: heart icon on product cards toggles anonymously (local/optimistic UI, no login prompt)</li>
+        <li>Full wishlist list page is login-gated, with price-drop and stock filters, and a "move all to cart" action</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Cart &amp; Checkout</h3><div class="mod-code">CUST-04</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Slide-out cart drawer + full cart page; VAT-inclusive pricing (5% UAE VAT); free-shipping threshold nudge</li>
+        <li>Shipping: address types (Home/Office/Other), Emirate + City cascading select; saved addresses persist to account</li>
+        <li>Payment: <b>Tap Payments</b> integration (Card, Apple Pay, Google Pay), Tabby and Tamara (buy-now-pay-later), and a separate Cash on Delivery option (adds AED 10 handling fee)</li>
+        <li>Platform-wide coupon code field; one coupon per order, excluded on Flash Deal items</li>
+        <li>Multi-vendor orders itemize shipping per seller</li>
+        <li>Delivery speed selection (Standard / Express)</li>
+      </ul>
+      <div class="evidence">
+        <b>Two items are open questions, not yet priced:</b> a saved-card / tokenized payment option (CVV re-entry on a stored card) — pending confirmation on whether this runs through Tap Payments' own hosted vault or requires custom secure storage; and a "YallaPlatinum" membership perk shown on Express delivery (a loyalty/membership tier concept) — pending scope and timing before it's costed.
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Account Area</h3><div class="mod-code">CUST-05</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Profile Settings — name, phone, saved addresses (multiple, typed), change password, Personal Details &amp; KYC (optional, not a hard gate)</li>
+        <li>Order History — status-tabbed, live order tracking with a delivery-journey timeline</li>
+        <li>Returns — dedicated list view tied to completed orders</li>
+        <li>My Reviews — purchase-gated review submission</li>
+        <li>Payment Methods, Language toggle (UI present, full Arabic content pipeline deferred — see CUST-07), WhatsApp order-update toggle, Face ID &amp; Passcode</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Auth</h3><div class="mod-code">CUST-06</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Google OAuth + email/password, with mandatory email verification step before first login</li>
+        <li>Server-side weak/breached-password rejection on signup</li>
+        <li>Backend runs on Lovable Cloud (Supabase-based)</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Localization</h3><div class="mod-code">CUST-07</div></div>
+        <div class="badges"><span class="badge gap">deferred — not in this scope/cost</span></div>
+      </div>
+      <ul>
+        <li>No language switcher on the live platform — English only, currently</li>
+        <li>Arabic/English localization is in progress on the web platform but not live yet, so there's no live reference to build against — out of this scope and cost rather than assumed</li>
+        <li>Layout is built RTL-aware from the start, so localization can switch on later at low cost instead of a layout retrofit</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Buyer-Seller Messaging</h3><div class="mod-code">CUST-08</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed — live reference exists</span></div>
+      </div>
+      <ul>
+        <li>Live on the web platform as product enquiries — a conversation thread tied to a product, with file attachments and email notification on new messages</li>
+        <li>Real-time delivery via <b>Supabase Realtime</b>, matching the platform's existing messaging protocol</li>
+        <li>Mobile build: conversation list, thread view, send/receive, read/unread state, plus a push notification tie-in for new messages</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Ratings, Reviews &amp; Rewards touchpoints</h3><div class="mod-code">CUST-09</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Structured review form: overall rating, quick-highlight tags, category-specific attributes, photo/video attachments, courier-delivery rating</li>
+        <li>Public-review toggle (display name + verified-buyer/city badge)</li>
+      </ul>
+      <div class="evidence"><b>Not priced:</b> a "YallaPoints" loyalty balance and earning/redemption mechanic appears throughout the design (product detail, checkout, order confirmation, profile, reviews) — already confirmed deferred, not in this phase. The Customer app screens reference it cosmetically; the underlying points ledger and redemption logic are out of scope until the client decides to build it.</li>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Notifications</h3><div class="mod-code">CUST-10</div></div>
+        <div class="badges"><span class="badge confirmed">confirmed</span></div>
+      </div>
+      <ul>
+        <li>Transactional/order-status push and in-app notifications (delivery updates, price drops on wishlisted items, points credited, review responses)</li>
+      </ul>
+      <div class="evidence"><b>Not priced:</b> promotional/marketing-campaign notifications (time-limited offer pushes with their own copy and voucher code, e.g. a flash-sale announcement) would need a campaign-composer control in the Admin panel that doesn't exist today — see the Admin Panel section. Out of this estimate until confirmed as needed.</li>
+    </div>
+  </section>
+
+  <!-- ================= PART 2 — ADMIN ================= -->
+  <section class="part" id="admin">
+    <div class="part-head"><span class="part-num">02</span><h2>Admin Panel (Web) — What the Customer App Needs</h2></div>
+    <p class="part-intro">No Admin mobile app is being built in this phase. The Customer app instead reads content that's managed through the existing web Admin panel — the same one already live and reviewed firsthand. This section covers what that panel already supports, and the one genuine gap found.</p>
+
+    <div class="callout ok">
+      <b>Already covered, no new Admin work needed —</b> Every content type the Customer app displays — homepage banners, featured collections, flash deals, platform-wide coupons, category structure and commission rates, the announcement banner, shipping fees — is already manageable in the existing web Admin panel. The mobile Customer app simply reads the same data the website already reads. Nothing here needs to be built or extended.
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Promotional Push Notification Composer</h3><div class="mod-code">ADM-EXT-01</div></div>
+        <div class="badges"><span class="badge gap">not priced — confirm before building</span></div>
+      </div>
+      <ul>
+        <li>The Customer Figma design shows marketing-style push notifications (e.g. a time-limited flash-sale announcement with its own copy and voucher code) — distinct from transactional order-status notifications, which are already covered (see CUST-10)</li>
+        <li>The existing Admin panel has no control for authoring and sending this kind of campaign notification — it would be new work: an Admin-side composer (title, body, optional voucher code, target audience, send/schedule) plus the mobile-side registration to receive it</li>
+      </ul>
+      <div class="evidence">This is the one piece of new Admin-panel work identified while cross-checking the Customer design against the live Admin panel. Everything else the Customer app needs from Admin already exists. Flagging for a decision rather than assuming it's wanted — if confirmed, it gets scoped and priced as its own line item.</div>
+    </div>
+  </section>
+
+  <!-- ================= PART 3 — WBS ================= -->
+  <section class="part" id="wbs">
+    <div class="part-head"><span class="part-num">03</span><h2>Work Breakdown Structure</h2></div>
+    <p class="part-intro">Customer App only. Day estimates are driven by feature complexity, verified against the live platform and the Figma design screen by screen.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th style="width:64px;">Code</th><th>Phase</th><th>Covers</th><th class="num">Depends on</th><th class="num">Days</th></tr>
+        </thead>
+        <tbody>
+          <tr class="track-divider"><td colspan="5">Customer App</td></tr>
+          <tr><td class="phase-code">A1</td><td class="phase-name">Foundation &amp; Auth</td><td>RN project setup, navigation shell, design system, Lovable/Supabase auth integration, email verification flow, password policy handling</td><td class="num">—</td><td class="num">5</td></tr>
+          <tr><td class="phase-code">A2</td><td class="phase-name">Catalog &amp; Navigation</td><td>19-category mega-menu as native nav, subcategory browsing, price/rating/brand filters, 5-way sort, search, homepage content (banners/collections/deals, read from Admin). Includes RTL-aware layout groundwork</td><td class="num">A1</td><td class="num">8</td></tr>
+          <tr><td class="phase-code">A3</td><td class="phase-name">Product Detail</td><td>Gallery, seller attribution card, stock/urgency states, reviews (incl. photo/video, category-specific attributes), generic variant selector, freeform specifications. Includes RTL-aware layout groundwork</td><td class="num">A2</td><td class="num">6</td></tr>
+          <tr><td class="phase-code">A4</td><td class="phase-name">Wishlist</td><td>Anonymous local toggle + authenticated persisted list, sync on login, price-drop/stock filters</td><td class="num">A1, A3</td><td class="num">2</td></tr>
+          <tr><td class="phase-code">A5</td><td class="phase-name">Cart &amp; Multi-Vendor Pricing</td><td>Cart drawer + page, VAT calc, free-shipping threshold logic, per-vendor shipping line items</td><td class="num">A3</td><td class="num">5</td></tr>
+          <tr><td class="phase-code">A6</td><td class="phase-name">Checkout</td><td>Shipping address (typed, emirate/city cascade), Tap Payments SDK integration (Card/Apple Pay/Google Pay), Tabby/Tamara, Cash on Delivery path, coupon validation, order review</td><td class="num">A5</td><td class="num">9</td></tr>
+          <tr><td class="phase-code">A7</td><td class="phase-name">Account Area</td><td>Profile/addresses/KYC, Order History with live tracking, Returns, purchase-gated review submission, Payment Methods, Face ID</td><td class="num">A1, A6</td><td class="num">5</td></tr>
+          <tr><td class="phase-code">A8</td><td class="phase-name">Notifications</td><td>Push setup (iOS + Android), in-app alerts — transactional/order-status only (promotional campaign notifications are separately flagged, not included here)</td><td class="num">A6</td><td class="num">4</td></tr>
+          <tr><td class="phase-code">A9</td><td class="phase-name">Messaging</td><td>Conversation list, thread view, send/receive via Supabase Realtime, read/unread state</td><td class="num">A1, A3</td><td class="num">4</td></tr>
+          <tr><td class="phase-code">A10</td><td class="phase-name">QA &amp; Store Submission</td><td>Cross-platform QA, store listing assets, review-cycle buffer (both stores)</td><td class="num">A1–A9</td><td class="num">6</td></tr>
+          <tr class="subtotal"><td></td><td colspan="2">Customer App subtotal</td><td class="num"></td><td class="num">54</td></tr>
+
+          <tr class="track-divider"><td colspan="5">Open — not costed</td></tr>
+          <tr><td class="phase-code">X1</td><td class="phase-name">Arabic / RTL Localization</td><td>Not present on live site; deferred until the web platform has it live (see CUST-07)</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td class="phase-code">X2</td><td class="phase-name">YallaPoints (loyalty ledger + redemption)</td><td>UI references exist throughout the design; underlying system deferred (see CUST-09)</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td class="phase-code">X3</td><td class="phase-name">YallaPlatinum membership tier</td><td>Referenced on Checkout's Express delivery; scope/timing not yet confirmed (see CUST-04)</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td class="phase-code">X4</td><td class="phase-name">Saved-card / tokenized payment</td><td>Referenced on Checkout's Payment Methods; vault approach not yet confirmed (see CUST-04)</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td class="phase-code">X5</td><td class="phase-name">Promotional push notification composer (Admin-side)</td><td>New Admin-panel work if campaign-style pushes are wanted (see ADM-EXT-01)</td><td class="num">—</td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= PART 4 — COSTING ================= -->
+  <section class="part" id="costing">
+    <div class="part-head"><span class="part-num">04</span><h2>Costing</h2></div>
+    <p class="part-intro">Day rate: PKR 6,000/day, applied directly to the phases above. Every figure below is a day count times the rate — no hidden margin, checkable line by line against the spec.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th style="width:64px;">Code</th><th>Phase</th><th class="num">Days</th><th class="num">Cost (PKR)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="track-divider"><td colspan="4">Customer App</td></tr>
+          <tr><td class="phase-code">A1</td><td class="phase-name">Foundation &amp; Auth</td><td class="num">5</td><td class="num">30,000</td></tr>
+          <tr><td class="phase-code">A2</td><td class="phase-name">Catalog &amp; Navigation</td><td class="num">8</td><td class="num">48,000</td></tr>
+          <tr><td class="phase-code">A3</td><td class="phase-name">Product Detail</td><td class="num">6</td><td class="num">36,000</td></tr>
+          <tr><td class="phase-code">A4</td><td class="phase-name">Wishlist</td><td class="num">2</td><td class="num">12,000</td></tr>
+          <tr><td class="phase-code">A5</td><td class="phase-name">Cart &amp; Multi-Vendor Pricing</td><td class="num">5</td><td class="num">30,000</td></tr>
+          <tr><td class="phase-code">A6</td><td class="phase-name">Checkout</td><td class="num">9</td><td class="num">54,000</td></tr>
+          <tr><td class="phase-code">A7</td><td class="phase-name">Account Area</td><td class="num">5</td><td class="num">30,000</td></tr>
+          <tr><td class="phase-code">A8</td><td class="phase-name">Notifications</td><td class="num">4</td><td class="num">24,000</td></tr>
+          <tr><td class="phase-code">A9</td><td class="phase-name">Messaging</td><td class="num">4</td><td class="num">24,000</td></tr>
+          <tr><td class="phase-code">A10</td><td class="phase-name">QA &amp; Store Submission</td><td class="num">6</td><td class="num">36,000</td></tr>
+          <tr class="subtotal"><td></td><td>Total — Customer App</td><td class="num">54</td><td class="num">324,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout open" style="margin-top:20px;">
+      <b>Not in this number —</b> Seller and Admin mobile apps (deferred to a later phase, per the decision to focus on Customer first); full Arabic/RTL localization; YallaPoints; YallaPlatinum; saved-card/tokenized payment; and the promotional push-notification composer, if confirmed as needed. Each of these gets scoped and priced separately once confirmed.
+    </div>
+  </section>
+
+  <footer class="doc">
+    Happy to walk through any part of this on a call.
+  </footer>
+
+</div>
