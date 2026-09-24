@@ -227,10 +227,10 @@
     <p class="part-intro">Each milestone's timeline holds only if its inputs are ready when it starts; a late input shifts that milestone by the same amount.</p>
     <div class="table-scroll"><table>
       <thead><tr><th>Needed by</th><th>Input</th><th>Owner</th></tr></thead>
-      <tbody><tr><td class="phase-code">M1</td><td>Figma Dev Mode access for the Customer file</td><td>Design team</td></tr><tr><td class="phase-code">M1</td><td>Staging environment separate from production</td><td>Backend team</td></tr><tr><td class="phase-code">M2</td><td>Tap Payments, Tabby and Tamara sandbox + live credentials</td><td>Client</td></tr><tr><td class="phase-code">M2</td><td>Apple Pay merchant ID and Google Pay setup</td><td>Client</td></tr><tr><td class="phase-code">M3</td><td>FCM (Android) and APNs (iOS) credentials</td><td>Backend team</td></tr><tr><td class="phase-code">M3</td><td>Apple Developer and Google Play accounts, store listing copy and screenshots approval</td><td>Client</td></tr></tbody>
+      <tbody><tr><td class="phase-code">M1</td><td>Figma Dev Mode access for the Customer file</td><td>Design team</td></tr><tr><td class="phase-code">M2</td><td>Tap Payments, Tabby and Tamara sandbox + live credentials</td><td>Client</td></tr><tr><td class="phase-code">M2</td><td>Apple Pay merchant ID and Google Pay setup</td><td>Client</td></tr><tr><td class="phase-code">M3</td><td>Apple Developer and Google Play accounts, store listing copy and screenshots approval</td><td>Client</td></tr></tbody>
     </table></div>
     <ul class="plain">
-      <li>The mobile-facing API layer, push infrastructure and staging are the backend team's responsibility; mobile work is client-side and integration only.</li>
+      <li>The mobile-facing API layer, push infrastructure (FCM/APNs) and staging environment are built as part of this plan, alongside the app.</li>
       <li>One round of client feedback is included per milestone.</li>
       <li>Store review time itself (Apple typically 1–3 days) is outside the 20 working days of M3.</li>
     </ul>
