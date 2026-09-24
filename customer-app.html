@@ -154,14 +154,14 @@
       <span><b>Prepared by</b> M.Hunain, for the Yallabae mobile build</span>
       <span><b>Backend</b> Lovable Cloud / Supabase-based; mobile-facing API layer, push infrastructure, and staging environment are the backend team's responsibility — mobile work here is client-side + integration only</span>
       <span><b>Scope</b> Customer App only — Seller and Admin mobile apps deferred to a later phase</span>
-      <span><b>Proposed</b> 54 working days · PKR 6,000/day · PKR 324,000</span>
+      <span><b>Proposed</b> 60 working days · PKR 6,000/day · PKR 360,000</span>
       <span><b>Status</b> Complete — ready for review</span>
     </div>
   </header>
 
   <nav class="parts">
     <a href="#spec">1 · Functional Spec</a>
-    <a href="#admin">2 · Admin Panel (Web)</a>
+    <a href="#admin">2 · Admin &amp; Backend</a>
     <a href="#wbs">3 · Work Breakdown</a>
     <a href="#costing">4 · Costing</a>
   </nav>
@@ -304,23 +304,59 @@
 
   <!-- ================= PART 2 — ADMIN ================= -->
   <section class="part" id="admin">
-    <div class="part-head"><span class="part-num">02</span><h2>Admin Panel (Web) — What the Customer App Needs</h2></div>
-    <p class="part-intro">No Admin mobile app is being built in this phase. The Customer app instead reads content that's managed through the existing web Admin panel — the same one already live and reviewed firsthand. This section covers what that panel already supports, and the one genuine gap found.</p>
+    <div class="part-head"><span class="part-num">02</span><h2>Admin Panel &amp; Backend — What the Customer App Needs</h2></div>
+    <p class="part-intro">No Admin mobile app is being built in this phase. The Customer app instead reads content that's managed through the existing web Admin panel and backend — the same platform already live and reviewed firsthand. Content the Customer app needs falls into three groups: already covered as-is, covered but needs a mobile-specific option, and genuinely new.</p>
 
     <div class="callout ok">
-      <b>Already covered, no new Admin work needed —</b> Every content type the Customer app displays — homepage banners, featured collections, flash deals, platform-wide coupons, category structure and commission rates, the announcement banner, shipping fees — is already manageable in the existing web Admin panel. The mobile Customer app simply reads the same data the website already reads. Nothing here needs to be built or extended.
+      <b>Already covered, no new work needed —</b> Trending Products, Curated Collections content, the platform-wide promo/coupon banner, and shipping settings are already manageable in the existing web Admin panel exactly as the Customer app needs them. The mobile app simply reads the same data the website already reads.
     </div>
 
     <div class="module">
       <div class="mod-head">
-        <div><h3 class="mod-title">Promotional Push Notification Composer</h3><div class="mod-code">ADM-EXT-01</div></div>
-        <div class="badges"><span class="badge gap">not priced — confirm before building</span></div>
+        <div><h3 class="mod-title">Mobile-Visibility Controls</h3><div class="mod-code">ADM-EXT-01</div></div>
+        <div class="badges"><span class="badge confirmed">scoped — minimal</span></div>
+      </div>
+      <ul>
+        <li>Top Brands and Featured Collections exist in the Admin panel already, but the mobile app needs its own curation, separate from what shows on the website (e.g. a different brand lineup or collection order for the app)</li>
+        <li>Scoped minimally: a "Show on Mobile" flag added to the existing Brands and Collections admin tables, so the same records can be curated differently for web vs. app without duplicating the underlying data or building a parallel management screen</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Similar Bought Product</h3><div class="mod-code">ADM-EXT-02</div></div>
+        <div class="badges"><span class="badge confirmed">scoped — minimal</span></div>
+      </div>
+      <ul>
+        <li>New to the Customer app, not present on the website — a "customers also bought" style section</li>
+        <li>Scoped minimally as a rule-based backend query (same category / same brand, excluding the current product), exposed as a new API endpoint — no machine-learning recommendation engine, no new Admin screen. This keeps the section functional without the larger build a true recommendation system would need</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Add-from-Wishlist Quick Action</h3><div class="mod-code">ADM-EXT-03</div></div>
+        <div class="badges"><span class="badge confirmed">scoped — minimal</span></div>
+      </div>
+      <ul>
+        <li>New to the Customer app — a one-tap "move to cart" action directly from the wishlist, rather than opening each product first</li>
+        <li>Backend: a wishlist-to-cart endpoint (add to existing cart logic, remove from wishlist on success). Purely a customer-facing action — no Admin control needed</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="mod-head">
+        <div><h3 class="mod-title">Promotional Push Notification Composer</h3><div class="mod-code">ADM-EXT-04</div></div>
+        <div class="badges"><span class="badge confirmed">scoped — minimal</span></div>
       </div>
       <ul>
         <li>The Customer Figma design shows marketing-style push notifications (e.g. a time-limited flash-sale announcement with its own copy and voucher code) — distinct from transactional order-status notifications, which are already covered (see CUST-10)</li>
-        <li>The existing Admin panel has no control for authoring and sending this kind of campaign notification — it would be new work: an Admin-side composer (title, body, optional voucher code, target audience, send/schedule) plus the mobile-side registration to receive it</li>
+        <li>Scoped minimally: a single Admin screen to author and send a push (title, body, optional voucher code, send-now) plus the mobile-side registration to receive it. Scheduling and audience-targeting are kept out of this pass to stay within scope — send-now to all app users covers the flash-sale-announcement use case shown in the design</li>
       </ul>
-      <div class="evidence">This is the one piece of new Admin-panel work identified while cross-checking the Customer design against the live Admin panel. Everything else the Customer app needs from Admin already exists. Flagging for a decision rather than assuming it's wanted — if confirmed, it gets scoped and priced as its own line item.</div>
+    </div>
+
+    <div class="callout open" style="margin-top:20px;">
+      <b>Kept out of this number —</b> Any further mobile-only sections beyond ADM-EXT-02/03/04 are deferred to a later phase to keep this estimate within budget. Scheduled/targeted push campaigns (beyond send-now-to-all) are also deferred, for the same reason.
     </div>
   </section>
 
@@ -348,12 +384,23 @@
           <tr><td class="phase-code">A10</td><td class="phase-name">QA &amp; Store Submission</td><td>Cross-platform QA, store listing assets, review-cycle buffer (both stores)</td><td class="num">A1–A9</td><td class="num">6</td></tr>
           <tr class="subtotal"><td></td><td colspan="2">Customer App subtotal</td><td class="num"></td><td class="num">54</td></tr>
 
+          <tr class="track-divider"><td colspan="5">Admin Panel &amp; Backend Extension</td></tr>
+          <tr><td class="phase-code">B1</td><td class="phase-name">Mobile-Visibility Controls</td><td>"Show on Mobile" flag on the existing Brands and Featured Collections admin tables, so app curation can differ from web (see ADM-EXT-01)</td><td class="num">—</td><td class="num">1</td></tr>
+          <tr><td class="phase-code">B2</td><td class="phase-name">Similar Bought Product</td><td>Rule-based backend query (same category/brand) exposed as a new API endpoint (see ADM-EXT-02)</td><td class="num">A3</td><td class="num">2.5</td></tr>
+          <tr><td class="phase-code">B3</td><td class="phase-name">Add-from-Wishlist Quick Action</td><td>Wishlist-to-cart backend endpoint (see ADM-EXT-03)</td><td class="num">A4</td><td class="num">1.5</td></tr>
+          <tr><td class="phase-code">B4</td><td class="phase-name">Promotional Push Notification Composer</td><td>Single Admin screen to author + send-now a push (title/body/voucher), mobile-side registration (see ADM-EXT-04)</td><td class="num">A8</td><td class="num">1</td></tr>
+          <tr class="subtotal"><td></td><td colspan="2">Admin/Backend Extension subtotal</td><td class="num"></td><td class="num">6</td></tr>
+
+          <tr class="track-divider"><td colspan="5">Total — Customer App + Admin/Backend Extension</td></tr>
+          <tr class="subtotal"><td></td><td colspan="2">Combined</td><td class="num"></td><td class="num">60</td></tr>
+
           <tr class="track-divider"><td colspan="5">Open — not costed</td></tr>
           <tr><td class="phase-code">X1</td><td class="phase-name">Arabic / RTL Localization</td><td>Not present on live site; deferred until the web platform has it live (see CUST-07)</td><td class="num">—</td><td class="num">—</td></tr>
           <tr><td class="phase-code">X2</td><td class="phase-name">YallaPoints (loyalty ledger + redemption)</td><td>UI references exist throughout the design; underlying system deferred (see CUST-09)</td><td class="num">—</td><td class="num">—</td></tr>
           <tr><td class="phase-code">X3</td><td class="phase-name">YallaPlatinum membership tier</td><td>Referenced on Checkout's Express delivery; scope/timing not yet confirmed (see CUST-04)</td><td class="num">—</td><td class="num">—</td></tr>
           <tr><td class="phase-code">X4</td><td class="phase-name">Saved-card / tokenized payment</td><td>Referenced on Checkout's Payment Methods; vault approach not yet confirmed (see CUST-04)</td><td class="num">—</td><td class="num">—</td></tr>
-          <tr><td class="phase-code">X5</td><td class="phase-name">Promotional push notification composer (Admin-side)</td><td>New Admin-panel work if campaign-style pushes are wanted (see ADM-EXT-01)</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td class="phase-code">X5</td><td class="phase-name">Scheduled / targeted push campaigns</td><td>Beyond send-now-to-all (ADM-EXT-04); scheduling and audience targeting sequenced to a later phase</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td class="phase-code">X6</td><td class="phase-name">Further mobile-only sections</td><td>Any additional mobile-only sections beyond ADM-EXT-02/03, sequenced to a later phase</td><td class="num">—</td><td class="num">—</td></tr>
         </tbody>
       </table>
     </div>
@@ -381,13 +428,23 @@
           <tr><td class="phase-code">A8</td><td class="phase-name">Notifications</td><td class="num">4</td><td class="num">24,000</td></tr>
           <tr><td class="phase-code">A9</td><td class="phase-name">Messaging</td><td class="num">4</td><td class="num">24,000</td></tr>
           <tr><td class="phase-code">A10</td><td class="phase-name">QA &amp; Store Submission</td><td class="num">6</td><td class="num">36,000</td></tr>
-          <tr class="subtotal"><td></td><td>Total — Customer App</td><td class="num">54</td><td class="num">324,000</td></tr>
+          <tr class="subtotal"><td></td><td>Customer App subtotal</td><td class="num">54</td><td class="num">324,000</td></tr>
+
+          <tr class="track-divider"><td colspan="4">Admin Panel &amp; Backend Extension</td></tr>
+          <tr><td class="phase-code">B1</td><td class="phase-name">Mobile-Visibility Controls</td><td class="num">1</td><td class="num">6,000</td></tr>
+          <tr><td class="phase-code">B2</td><td class="phase-name">Similar Bought Product</td><td class="num">2.5</td><td class="num">15,000</td></tr>
+          <tr><td class="phase-code">B3</td><td class="phase-name">Add-from-Wishlist Quick Action</td><td class="num">1.5</td><td class="num">9,000</td></tr>
+          <tr><td class="phase-code">B4</td><td class="phase-name">Promotional Push Notification Composer</td><td class="num">1</td><td class="num">6,000</td></tr>
+          <tr class="subtotal"><td></td><td>Admin/Backend Extension subtotal</td><td class="num">6</td><td class="num">36,000</td></tr>
+
+          <tr class="track-divider"><td colspan="4">Total</td></tr>
+          <tr class="subtotal"><td></td><td>Customer App + Admin/Backend Extension, 60 days @ PKR 6,000/day</td><td class="num">60</td><td class="num">360,000</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="callout open" style="margin-top:20px;">
-      <b>Not in this number —</b> Seller and Admin mobile apps (deferred to a later phase, per the decision to focus on Customer first); full Arabic/RTL localization; YallaPoints; YallaPlatinum; saved-card/tokenized payment; and the promotional push-notification composer, if confirmed as needed. Each of these gets scoped and priced separately once confirmed.
+      <b>Not in this number —</b> Seller and Admin mobile apps (deferred to a later phase, per the decision to focus on Customer first); full Arabic/RTL localization; YallaPoints; YallaPlatinum; saved-card/tokenized payment; scheduled/targeted push campaigns beyond send-now; and further mobile-only sections beyond Similar Bought Product and Add-from-Wishlist. Each of these gets scoped and priced separately once confirmed.
     </div>
   </section>
 
