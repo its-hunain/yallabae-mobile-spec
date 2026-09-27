@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yallabae Mobile — Open Design Questions</title>
+<style>
+  :root{
+    --ink:#14213D;
+    --accent:#FCA311;
+    --accent-ink:#7A4E00;
+    --ground:#F7F7F5;
+    --surface:#FFFFFF;
+    --muted:#5C6470;
+    --line:#E5E3DD;
+    --line-strong:#D6D3CA;
+    --ok:#1B7F4C;
+    --ok-bg:#E8F5EE;
+    --pending:#B54708;
+    --pending-bg:#FDF1E8;
+    --unknown:#8A5CF6;
+    --unknown-bg:#F1ECFE;
+    --code-bg:#F1EFE9;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ink:#EDEEF2;
+      --accent:#FFB733;
+      --accent-ink:#FFD98C;
+      --ground:#15161B;
+      --surface:#1C1E26;
+      --muted:#9CA1AF;
+      --line:#2C2E38;
+      --line-strong:#3A3D4A;
+      --ok:#4ADE94;
+      --ok-bg:#12261C;
+      --pending:#FDBA74;
+      --pending-bg:#2B1D0F;
+      --unknown:#C4B0FF;
+      --unknown-bg:#241B3D;
+      --code-bg:#20222C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EDEEF2;
+    --accent:#FFB733;
+    --accent-ink:#FFD98C;
+    --ground:#15161B;
+    --surface:#1C1E26;
+    --muted:#9CA1AF;
+    --line:#2C2E38;
+    --line-strong:#3A3D4A;
+    --ok:#4ADE94;
+    --ok-bg:#12261C;
+    --pending:#FDBA74;
+    --pending-bg:#2B1D0F;
+    --unknown:#C4B0FF;
+    --unknown-bg:#241B3D;
+    --code-bg:#20222C;
+  }
+
+  * { box-sizing:border-box; }
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:16px;
+    line-height:1.55;
+    margin:0;
+  }
+  .wrap{ max-width:820px; margin:0 auto; padding-block:32px 100px; }
+
+  h1,h2,h3{ font-family:'Fraunces',Georgia,serif; text-wrap:balance; color:var(--ink); }
+
+  header.doc{ margin-bottom:36px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent-ink); background:var(--code-bg); display:inline-block; padding:4px 10px; border-radius:4px;
+    margin-bottom:14px; border:1px solid var(--line-strong);
+  }
+  h1.title{ font-size:clamp(26px,5vw,36px); font-weight:600; margin:0 0 10px; line-height:1.15; }
+  .subtitle{ color:var(--muted); font-size:15.5px; max-width:64ch; margin:0 0 16px; }
+  .howto{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px;
+    font-size:13.5px; color:var(--muted);
+  }
+  .howto b{ color:var(--ink); }
+
+  .qcard{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:20px;
+  }
+  .qhead{ display:flex; align-items:baseline; gap:12px; margin-bottom:8px; flex-wrap:wrap; }
+  .qnum{ font-size:13px; color:var(--accent-ink); background:var(--code-bg); border:1px solid var(--line-strong); border-radius:6px; padding:2px 9px; font-family:'IBM Plex Mono',monospace; }
+  .qhead h2{ font-size:19px; margin:0; font-weight:600; }
+  .status{ font-size:11px; font-weight:600; padding:3px 9px; border-radius:100px; white-space:nowrap; letter-spacing:.01em; }
+  .status.open{ background:var(--pending-bg); color:var(--pending); }
+  .status.answered{ background:var(--ok-bg); color:var(--ok); }
+
+  .qbody p{ font-size:14.5px; margin:6px 0; }
+  .qbody b{ color:var(--ink); }
+  .qbody .label{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); display:block; margin-top:14px; margin-bottom:3px; }
+
+  textarea.answer{
+    width:100%; min-height:80px; margin-top:16px; padding:12px 14px; border-radius:8px; border:1.5px solid var(--line-strong);
+    background:var(--ground); color:var(--ink); font-family:'Inter',sans-serif; font-size:14.5px; resize:vertical;
+  }
+  textarea.answer:focus{ outline:none; border-color:var(--accent); }
+  textarea.answer::placeholder{ color:var(--muted); }
+
+  .toolbar{
+    position:sticky; bottom:16px; display:flex; justify-content:center; margin-top:8px; z-index:10;
+  }
+  .toolbar-inner{
+    background:var(--ink); color:var(--ground); border-radius:100px; padding:10px 10px 10px 20px;
+    display:flex; align-items:center; gap:14px; box-shadow:0 6px 24px rgba(0,0,0,.18); font-size:13.5px;
+  }
+  .toolbar-inner span{ font-family:'IBM Plex Mono',monospace; font-size:12px; opacity:.8; }
+  button.copy-btn{
+    background:var(--accent); color:var(--accent-ink); border:none; border-radius:100px; padding:9px 18px;
+    font-weight:600; font-size:13.5px; cursor:pointer; font-family:'Inter',sans-serif;
+  }
+  button.copy-btn:hover{ filter:brightness(1.05); }
+  button.copy-btn:active{ transform:translateY(1px); }
+
+  footer.doc{ margin-top:50px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); }
+
+  @media (max-width:560px){
+    .toolbar-inner{ flex-direction:column; align-items:stretch; padding:14px; gap:10px; }
+    .toolbar-inner span{ text-align:center; }
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="doc">
+    <span class="eyebrow">Yallabae Mobile · Design Open Questions</span>
+    <h1 class="title">Questions for Ramish / Ali</h1>
+    <p class="subtitle">These came up while building Product Detail screen-accurate to the Figma file. Each one is something the Figma design shows that has no real data anywhere — not on the live web app, not in the database. Type an answer in each box, then use "Copy all answers" at the bottom and send it back however's easiest (WhatsApp, email, whatever).</p>
+    <div class="howto">
+      <b>How this works:</b> nothing here saves automatically. Type answers, hit "Copy all answers", paste the result to Hunain. Add new questions get appended here as they come up while going through the rest of the screens.
+    </div>
+  </header>
+
+  <div id="questions">
+
+    <div class="qcard" data-q="1">
+      <div class="qhead">
+        <span class="qnum">Q1</span>
+        <h2>Product Detail "Notes" (fragrance pyramid) card</h2>
+        <span class="status open">open</span>
+      </div>
+      <div class="qbody">
+        <p><b>Figma shows:</b> Top Notes / Heart Notes / Base Notes for a mockup product ("La Luna Eau De Parfum") that doesn't exist in the real database.</p>
+        <p><b>Checked:</b> scanned 100+ real products' specifications — no product anywhere has Top/Heart/Base Notes fields. Real fragrance products only have generic fields (Brand, Volume, Longevity, Gender) and sometimes a single "Scent" word or a freeform "Scent Personality" paragraph — nothing tiered.</p>
+        <p><b>Current status:</b> built with the real card structure (icon, title, category badge, description, tiered rows), but the tier content always shows a "backend pending" placeholder since no real data exists.</p>
+        <p class="label">Question</p>
+        <p>Should fragrance products get a real Top/Heart/Base Notes data model (new fields on the product form), or should this card be re-scoped/removed for mobile?</p>
+        <textarea class="answer" placeholder="Type your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="qcard" data-q="2">
+      <div class="qhead">
+        <span class="qnum">Q2</span>
+        <h2>"Application & Scent Layering" accordion</h2>
+        <span class="status open">open</span>
+      </div>
+      <div class="qbody">
+        <p><b>Figma shows:</b> a collapsed accordion — expanded content is never defined anywhere in the design file itself.</p>
+        <p><b>Checked:</b> not on the live web app either. Some real products do have an "Application Tip" / "How to Use" specification key (freeform, seller-entered, product by product) — when present, the accordion shows that real value; when absent, the whole section is hidden.</p>
+        <p class="label">Question</p>
+        <p>Is showing the real specification value (when a seller happens to have filled one in) the right behavior, or is there a fixed/different intended content for this section?</p>
+        <p style="font-size:13px;color:var(--muted);"><i>(Already asked once in an earlier message — still awaiting a reply as of this doc.)</i></p>
+        <textarea class="answer" placeholder="Type your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="qcard" data-q="3">
+      <div class="qhead">
+        <span class="qnum">Q3</span>
+        <h2>"Authenticity Guarantee & Box Contents" accordion</h2>
+        <span class="status open">open</span>
+      </div>
+      <div class="qbody">
+        <p>Same situation as Q2 — collapsed in Figma, no defined content anywhere. Currently shows a real specification value (Box Contents / Authenticity keys) when a product has one, otherwise hidden.</p>
+        <p style="font-size:13px;color:var(--muted);"><i>(Already asked once in an earlier message — still awaiting a reply.)</i></p>
+        <textarea class="answer" placeholder="Type your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="qcard" data-q="4">
+      <div class="qhead">
+        <span class="qnum">Q4</span>
+        <h2>"Earn N YallaPoints" loyalty row</h2>
+        <span class="status open">open</span>
+      </div>
+      <div class="qbody">
+        <p><b>Figma shows:</b> a specific point value ("Earn 25 YallaPoints with this order") and a "Learn More" link.</p>
+        <p><b>Checked:</b> no loyalty-points feature exists anywhere — no points balance, no earn rate, no redemption flow, nothing in the schema or the live site.</p>
+        <p><b>Current status:</b> shown as an explicit "backend pending" placeholder row (Figma sections are never dropped, always shown even without real data).</p>
+        <p class="label">Question</p>
+        <p>Is YallaPoints a real planned feature? If so, what's the earn rate (e.g. X points per AED spent) so a real value can be computed — or is this cut from mobile scope?</p>
+        <textarea class="answer" placeholder="Type your answer here..."></textarea>
+      </div>
+    </div>
+
+    <div class="qcard" data-q="5">
+      <div class="qhead">
+        <span class="qnum">Q5</span>
+        <h2>"Top 1% Arabian Fragrance" category-ranking badge</h2>
+        <span class="status open">open</span>
+      </div>
+      <div class="qbody">
+        <p><b>Figma shows:</b> a badge next to the rating showing the product's ranking within its category.</p>
+        <p><b>Checked:</b> no ranking/percentile computation exists anywhere — not a stored column, not computed on the live site.</p>
+        <p class="label">Question</p>
+        <p>Is this meant to be a real computed ranking (needs a formula — what counts as "top", over what window, per category or sub-category?), manually curated per product, or cut from scope?</p>
+        <textarea class="answer" placeholder="Type your answer here..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);text-align:center;margin-top:24px;">New questions get appended above as more of the app is built against the real Figma file.</p>
+
+  <footer class="doc">
+    Yallabae Mobile — internal working doc, not for external distribution.
+  </footer>
+</div>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <span id="progress">0 of 5 answered</span>
+    <button class="copy-btn" onclick="copyAllAnswers()">Copy all answers</button>
+  </div>
+</div>
+
+<script>
+  function updateProgress() {
+    const cards = document.querySelectorAll('.qcard');
+    let answered = 0;
+    cards.forEach(card => {
+      const ta = card.querySelector('textarea.answer');
+      const statusEl = card.querySelector('.status');
+      if (ta.value.trim().length > 0) {
+        answered++;
+        statusEl.textContent = 'answered';
+        statusEl.className = 'status answered';
+      } else {
+        statusEl.textContent = 'open';
+        statusEl.className = 'status open';
+      }
+    });
+    document.getElementById('progress').textContent = answered + ' of ' + cards.length + ' answered';
+  }
+
+  document.querySelectorAll('textarea.answer').forEach(ta => {
+    ta.addEventListener('input', updateProgress);
+    try {
+      const key = 'yallabae-open-q-' + ta.closest('.qcard').dataset.q;
+      const saved = localStorage.getItem(key);
+      if (saved) ta.value = saved;
+      ta.addEventListener('input', () => {
+        try { localStorage.setItem(key, ta.value); } catch (e) {}
+      });
+    } catch (e) {}
+  });
+
+  function copyAllAnswers() {
+    const cards = document.querySelectorAll('.qcard');
+    let text = 'Yallabae Mobile — Answers to Open Design Questions\n\n';
+    cards.forEach(card => {
+      const num = card.dataset.q;
+      const title = card.querySelector('h2').textContent;
+      const answer = card.querySelector('textarea.answer').value.trim();
+      text += 'Q' + num + ' — ' + title + '\n';
+      text += (answer.length > 0 ? answer : '[not answered yet]') + '\n\n';
+    });
+
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = original; }, 1800);
+    }).catch(() => {
+      alert('Could not copy automatically — please select and copy the text manually.');
+    });
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
